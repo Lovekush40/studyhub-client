@@ -130,7 +130,7 @@ export default function Dashboard() {
           <h2 className="text-lg font-semibold text-[var(--color-text)] mb-4">
             {isAdmin ? 'Student Enrollment Trends' : 'My Performance Graph'}
           </h2>
-          <div className="h-[300px] w-full">
+          <div style={{ width: '100%', height: 300, minHeight: 300 }}>
             {chartData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>

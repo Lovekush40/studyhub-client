@@ -5,7 +5,7 @@ import { Loader2 } from 'lucide-react';
 export default function BatchFormModal({ isOpen, onClose, batchData, coursesList, onSubmit }) {
   const [formData, setFormData] = useState({
     name: '',
-    course: '',
+    course_id: '',
     start: '',
     days: '',
     time: '',
@@ -19,7 +19,7 @@ export default function BatchFormModal({ isOpen, onClose, batchData, coursesList
     } else {
       setFormData({
         name: '',
-        course: coursesList.length > 0 ? coursesList[0].name : '', // Default to first course
+        course_id: coursesList.length > 0 ? coursesList[0].id : '', // Default to first course
         start: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
         days: '',
         time: '',
@@ -62,14 +62,14 @@ export default function BatchFormModal({ isOpen, onClose, batchData, coursesList
         <div>
            <label className="block text-sm font-medium text-[var(--color-text-muted)] mb-1">Associated Course</label>
            <select 
-             name="course"
+             name="course_id"
              required
-             value={formData.course}
+             value={formData.course_id}
              onChange={handleChange}
              className="w-full px-3 py-2 bg-[var(--color-bg)] text-[var(--color-text)] border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
            >
              {coursesList.map(c => (
-               <option key={c.id} value={c.name}>{c.name}</option>
+               <option key={c.id} value={c.id}>{c.name}</option>
              ))}
            </select>
         </div>

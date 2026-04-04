@@ -125,7 +125,7 @@ export default function LandingPage() {
                 desc: "Give tests easily via Google Forms.",
               },
             ].map((f, i) => (
-              <div className="p-6 border border-[var(--color-border)] rounded-xl bg-[var(--color-bg)] shadow-sm hover:border-[var(--color-primary)] transition-all">
+              <div key={f.title} className="p-6 border border-[var(--color-border)] rounded-xl bg-[var(--color-bg)] shadow-sm hover:border-[var(--color-primary)] transition-all">
                 <f.icon className="w-6 h-6 text-[var(--color-primary)] mb-3" />
                 
                 <h3 className="font-semibold text-lg text-[var(--color-text)]">

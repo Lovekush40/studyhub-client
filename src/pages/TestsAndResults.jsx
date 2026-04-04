@@ -23,6 +23,11 @@ export default function TestsAndResults() {
   const [tests, setTests] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Results State (Mock for now to prevent crashes)
+  const isResultModalOpen = false;
+  const loadingResults = false;
+  const filteredResults = [];
+
   //  Modal state
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [editingTest, setEditingTest] = useState(null);

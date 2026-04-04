@@ -64,6 +64,11 @@ export const fetchStudentsList = async () => {
   return request('/students');
 };
 
+/**
+ * Add a new student with primary batch enrollment
+ * @param {Object} studentData - Student data including batch_id and course_id
+ * @returns {Promise} Created student object
+ */
 export const addStudent = async (studentData) => {
   return request('/students', { 
     method: 'POST', 
@@ -71,6 +76,12 @@ export const addStudent = async (studentData) => {
   });
 };
 
+/**
+ * Update student (basic info only, batch changes via allocateBatchesToStudent)
+ * @param {string} id - Student ID
+ * @param {Object} studentData - Updated student data
+ * @returns {Promise} Updated student object
+ */
 export const updateStudent = async (id, studentData) => {
   return request(`/students/${id}`, { 
     method: 'PUT', 
@@ -78,12 +89,57 @@ export const updateStudent = async (id, studentData) => {
   });
 };
 
+/**
+ * Delete student and all their batch allocations
+ * @param {string} id - Student ID
+ * @returns {Promise} Success response
+ */
 export const deleteStudent = async (id) => {
   return request(`/students/${id}`, { 
     method: 'DELETE' 
   });
 };
 
+/**
+ * Allocate multiple batches to a student (use for editing students)
+ * @param {string} studentId - Student ID
+ * @param {Array} batchIds - Array of batch IDs to allocate
+ * @returns {Promise} Allocation response
+ */
+export const allocateBatchesToStudent = async (studentId, batchIds) => {
+  if (!Array.isArray(batchIds)) {
+    throw new Error('batchIds must be an array');
+  }
+
+  return request(`/students/${studentId}/allocate-batches`, {
+    method: 'POST',
+    body: { batch_ids: batchIds }
+  });
+};
+
+/**
+ * Remove a single batch from student
+ * @param {string} studentId - Student ID
+ * @param {string} batchId - Batch ID to remove
+ * @returns {Promise} Success response
+ */
+export const removeBatchFromStudent = async (studentId, batchId) => {
+  return request('/students/remove-batch', {
+    method: 'POST',
+    body: {
+      student_id: studentId,
+      batch_id: batchId
+    }
+  });
+};
+
+/**
+ * Enroll student in a batch (legacy method for backwards compatibility)
+ * @param {string} studentId - Student ID
+ * @param {string} batchId - Batch ID (optional if courseId provided)
+ * @param {string} courseId - Course ID (optional if batchId provided)
+ * @returns {Promise} Enrolled student object
+ */
 export const enrollStudent = async (studentId, batchId, courseId) => {
   return request('/students/enroll', {
     method: 'POST',
@@ -107,7 +163,6 @@ export const getCourse = async (id) => {
 };
 
 export const addCourse = async (courseData) => {
-  // Ensure subjects is an array
   const payload = {
     ...courseData,
     subjects: Array.isArray(courseData.subjects) 
@@ -122,7 +177,6 @@ export const addCourse = async (courseData) => {
 };
 
 export const updateCourse = async (id, courseData) => {
-  // Ensure subjects is an array
   const payload = {
     ...courseData,
     subjects: Array.isArray(courseData.subjects) 
