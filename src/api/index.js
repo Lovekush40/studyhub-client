@@ -65,6 +65,15 @@ export const fetchStudentsList = async () => {
 };
 
 /**
+ * Fetch a single student by ID with expanded details
+ * @param {string} id - Student ID
+ * @returns {Promise} Student object
+ */
+export const fetchStudentById = async (id) => {
+  return request(`/students/${id}`);
+};
+
+/**
  * Add a new student with primary batch enrollment
  * @param {Object} studentData - Student data including batch_id and course_id
  * @returns {Promise} Created student object

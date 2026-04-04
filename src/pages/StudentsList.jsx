@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { fetchStudentsList, addStudent, updateStudent, deleteStudent } from '../api';
-import { Search, Filter, MoreVertical, Loader2, Edit2, Trash2 } from 'lucide-react';
+import { fetchStudentsList, deleteStudent } from '../api';
+import { Search, Filter, Loader2, Edit2, Trash2, BookOpen } from 'lucide-react';
 import StudentFormModal from '../components/StudentFormModal';
+import BatchAllocationModal from '../components/BatchAllocationModal';
 
 export default function StudentsList() {
   const [students, setStudents] = useState([]);
@@ -9,11 +10,9 @@ export default function StudentsList() {
   const [error, setError] = useState(null);
 
   // Modal State
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingStudent, setEditingStudent] = useState(null);
-
-  // Action Menu State
-  const [openMenuId, setOpenMenuId] = useState(null);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isAllocationModalOpen, setIsAllocationModalOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
   const loadStudents = async () => {
     setLoading(true);
@@ -35,39 +34,28 @@ export default function StudentsList() {
   }, []);
 
   const handleOpenAddModal = () => {
-    setEditingStudent(null);
-    setIsModalOpen(true);
+    setSelectedStudent(null);
+    setIsProfileModalOpen(true);
   };
 
   const handleOpenEditModal = (student) => {
-    setEditingStudent(student);
-    setIsModalOpen(true);
-    setOpenMenuId(null);
+    setSelectedStudent(student);
+    setIsProfileModalOpen(true);
+  };
+
+  const handleOpenAllocationModal = (student) => {
+    setSelectedStudent(student);
+    setIsAllocationModalOpen(true);
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this student?")) {
+    if (window.confirm("Are you sure you want to delete this student profile?")) {
       try {
         await deleteStudent(id);
         await loadStudents();
       } catch (err) {
         console.error("Deletion failed", err);
       }
-    }
-    setOpenMenuId(null);
-  };
-
-  const handleFormSubmit = async (formData) => {
-    try {
-      if (editingStudent) {
-        await updateStudent(editingStudent.id, formData);
-      } else {
-        await addStudent(formData);
-      }
-      await loadStudents();
-      setIsModalOpen(false);
-    } catch (err) {
-      console.error("Error saving student", err);
     }
   };
 
@@ -77,15 +65,15 @@ export default function StudentsList() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-[var(--color-text)]">Students Directory</h1>
           <p className="text-sm mt-1 text-[var(--color-text-muted)]">
-            A list of all students enrolled in the institute across all batches.
+            Manage student profiles and their batch enrollments.
           </p>
         </div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
           <button 
             type="button" 
             onClick={handleOpenAddModal}
-            className="inline-flex items-center justify-center rounded-md bg-[var(--color-primary)] px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[var(--color-primary-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
-            Add Student
+            className="inline-flex items-center justify-center rounded-md bg-[var(--color-primary)] px-4 py-2 text-sm font-bold text-white shadow-sm hover:bg-[var(--color-primary-hover)] transition-all">
+            Register Student
           </button>
         </div>
       </div>
@@ -97,122 +85,133 @@ export default function StudentsList() {
           </div>
           <input
              type="text"
-             className="block w-full rounded-md border-0 py-2 pl-10 bg-[var(--color-bg-alt)] text-[var(--color-text)] ring-1 ring-inset ring-[var(--color-border)] placeholder:text-[var(--color-text-muted)] focus:ring-2 focus:ring-inset focus:ring-[var(--color-primary)] sm:text-sm sm:leading-6"
-             placeholder="Search students by name or ID..."
+             className="block w-full rounded-md border-0 py-2 pl-10 bg-[var(--color-bg-alt)] text-[var(--color-text)] ring-1 ring-inset ring-[var(--color-border)] placeholder:text-[var(--color-text-muted)] focus:ring-2 focus:ring-inset focus:ring-[var(--color-primary)] sm:text-sm sm:leading-6 outline-none"
+             placeholder="Search by name, email or ID..."
           />
         </div>
-        <button className="inline-flex items-center gap-2 rounded-md bg-[var(--color-bg-alt)] px-3 py-2 text-sm font-semibold text-[var(--color-text)] shadow-sm ring-1 ring-inset ring-[var(--color-border)] hover:bg-[var(--color-bg)]">
+        <button className="inline-flex items-center gap-2 rounded-md bg-[var(--color-bg-alt)] px-3 py-2 text-sm font-semibold text-[var(--color-text)] shadow-sm ring-1 ring-inset ring-[var(--color-border)] hover:bg-[var(--color-bg)] transition-colors">
           <Filter className="h-4 w-4 text-[var(--color-text-muted)]" />
-          More Filters
+          Filters
         </button>
       </div>
 
       <div className="overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)] shadow-sm">
         {loading ? (
-           <div className="flex justify-center items-center py-24">
-             <Loader2 className="w-8 h-8 text-[var(--color-primary)] animate-spin" />
-             <span className="ml-3 text-[var(--color-text-muted)] font-medium">Fetching directory...</span>
+           <div className="flex flex-col justify-center items-center py-24">
+             <Loader2 className="w-10 h-10 text-[var(--color-primary)] animate-spin" />
+             <span className="mt-4 text-[var(--color-text-muted)] font-bold">Synchronizing directory...</span>
            </div>
         ) : error ? (
           <div className="flex justify-center items-center py-24">
             <div className="text-center">
-              <p className="text-red-500 font-semibold">Error Loading Students</p>
+              <p className="text-red-500 font-bold">Connection Error</p>
               <p className="text-[var(--color-text-muted)] text-sm mt-2">{error}</p>
               <button
                 onClick={loadStudents}
-                className="mt-4 inline-flex items-center justify-center rounded-md bg-[var(--color-primary)] px-3 py-2 text-sm font-semibold text-white hover:bg-[var(--color-primary-hover)]"
+                className="mt-4 inline-flex items-center justify-center rounded-md bg-[var(--color-primary)] px-4 py-2 text-sm font-bold text-white hover:bg-[var(--color-primary-hover)] transition-all"
               >
-                Retry
+                Retry Request
               </button>
             </div>
           </div>
         ) : students.length === 0 ? (
-          <div className="flex justify-center items-center py-24">
-            <div className="text-center">
-              <p className="text-[var(--color-text-muted)] font-semibold">No students found</p>
-              <p className="text-[var(--color-text-muted)] text-sm mt-2">Add a new student to get started</p>
-            </div>
+          <div className="flex flex-col justify-center items-center py-24 text-center">
+             <div className="h-16 w-16 bg-[var(--color-bg)] rounded-full flex items-center justify-center mb-4">
+                <Search className="w-8 h-8 text-[var(--color-text-muted)]" />
+             </div>
+              <p className="text-[var(--color-text-muted)] font-bold">No students found</p>
+              <p className="text-[var(--color-text-muted)] text-sm mt-1">Start by registering your first student.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-[var(--color-border)]">
               <thead className="bg-[var(--color-bg)]">
                 <tr>
-                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)] sm:pl-6">
-                    Student Information
+                  <th scope="col" className="py-4 pl-6 pr-3 text-left text-xs font-bold uppercase tracking-widest text-[var(--color-text-muted)]">
+                    Student Details
                   </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)]">
+                  <th scope="col" className="px-3 py-4 text-left text-xs font-bold uppercase tracking-widest text-[var(--color-text-muted)]">
                     Email
                   </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)]">
-                    Enrolled Batch
+                  <th scope="col" className="px-3 py-4 text-left text-xs font-bold uppercase tracking-widest text-[var(--color-text-muted)]">
+                    Current Batch
                   </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)]">
-                    Course
-                  </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)]">
+                  <th scope="col" className="px-3 py-4 text-left text-xs font-bold uppercase tracking-widest text-[var(--color-text-muted)] hidden lg:table-cell">
                     Attendance
                   </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)] hidden sm:table-cell">
+                  <th scope="col" className="px-3 py-4 text-left text-xs font-bold uppercase tracking-widest text-[var(--color-text-muted)]">
                     Status
                   </th>
-                  <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                  <th scope="col" className="relative py-4 pl-3 pr-6 text-right">
                     <span className="sr-only">Actions</span>
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[var(--color-border)] bg-[var(--color-bg-alt)]">
                 {students.map((student) => (
-                  <tr key={student.id} className="hover:bg-[var(--color-bg)] transition-colors">
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
+                  <tr key={student.id} className="hover:bg-[var(--color-bg)]/50 transition-all group">
+                    <td className="whitespace-nowrap py-5 pl-6 pr-3">
                       <div className="flex items-center">
-                        <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-tr from-[var(--color-primary)] to-blue-500 overflow-hidden">
-                           <img src={`https://api.dicebear.com/7.x/initials/svg?seed=${student.name}`} alt="" />
+                        <div className="h-12 w-12 flex-shrink-0 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-indigo-600 p-0.5 shadow-lg shadow-indigo-500/10">
+                           <img 
+                            className="h-full w-full rounded-[10px] bg-white object-cover" 
+                            src={`https://api.dicebear.com/7.x/initials/svg?seed=${student.name}&backgroundColor=ffffff`} 
+                            alt={student.name} 
+                           />
                         </div>
                         <div className="ml-4">
-                          <div className="font-semibold text-[var(--color-text)]">{student.name}</div>
-                          <div className="mt-1 text-xs text-[var(--color-text-muted)]">ID: {student.id}</div>
+                          <div className="font-bold text-[var(--color-text)] group-hover:text-[var(--color-primary)] transition-colors">{student.name}</div>
+                          <div className="text-[10px] font-mono text-[var(--color-text-muted)] bg-[var(--color-bg)] px-1.5 py-0.5 rounded border border-[var(--color-border)] inline-block mt-1">ID: {student.id}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-[var(--color-text-muted)]">{student.email}</td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-[var(--color-text-muted)]">
-                      {student.batch_name || student.batch}
+                    <td className="whitespace-nowrap px-3 py-5 text-sm text-[var(--color-text-muted)] font-medium">{student.email}</td>
+                    <td className="whitespace-nowrap px-3 py-5 text-sm">
+                      <div className="flex flex-col">
+                        <span className={`font-bold ${student.batch_name === 'Unassigned' ? 'text-amber-500' : 'text-[var(--color-text)]'}`}>
+                            {student.batch_name || student.batch}
+                        </span>
+                        <span className="text-[10px] text-[var(--color-text-muted)]">{student.course_name || 'N/A'}</span>
+                      </div>
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-[var(--color-text-muted)]">
-                      {student.course_name || 'Not assigned'}
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm">
-                      <div className="flex items-center gap-2">
-                        <div className="w-16 h-2 bg-[var(--color-bg)] rounded-full overflow-hidden border border-[var(--color-border)]">
-                           <div className={`h-full ${student.attendance >= 80 ? 'bg-emerald-500' : student.attendance > 65 ? 'bg-amber-500' : 'bg-red-500'}`} style={{ width: `${student.attendance}%` }}></div>
+                    <td className="whitespace-nowrap px-3 py-5 text-sm hidden lg:table-cell">
+                      <div className="flex items-center gap-3">
+                        <div className="w-20 h-1.5 bg-[var(--color-bg)] rounded-full overflow-hidden border border-[var(--color-border)]">
+                           <div className={`h-full ${student.attendance >= 80 ? 'bg-emerald-500' : student.attendance > 65 ? 'bg-amber-500' : 'bg-rose-500'}`} style={{ width: `${student.attendance}%` }}></div>
                         </div>
-                        <span className={`font-semibold ${student.attendance >= 80 ? 'text-emerald-500' : student.attendance > 65 ? 'text-amber-500' : 'text-red-500'}`}>
+                        <span className={`font-bold tabular-nums ${student.attendance >= 80 ? 'text-emerald-500' : student.attendance > 65 ? 'text-amber-500' : 'text-rose-500'}`}>
                           {student.attendance}%
                         </span>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm hidden sm:table-cell">
-                      <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium border ${
+                    <td className="whitespace-nowrap px-3 py-5 text-sm">
+                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold border uppercase tracking-wider ${
                         student.status === 'Active' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' : 
                         student.status === 'Warning' ? 'bg-amber-500/10 text-amber-600 border-amber-500/20' : 
-                        'bg-red-500/10 text-red-600 border-red-500/20'
+                        'bg-rose-500/10 text-rose-600 border-rose-500/20'
                       }`}>
                         {student.status}
                       </span>
                     </td>
-                    <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                      <div className="flex items-center justify-end gap-2">
+                    <td className="relative whitespace-nowrap py-5 pl-3 pr-6 text-right text-sm font-medium">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button 
+                          onClick={() => handleOpenAllocationModal(student)}
+                          className="bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500 hover:text-white p-2 rounded-lg transition-all"
+                          title="Manage Enrollment"
+                        >
+                          <BookOpen className="w-4 h-4" />
+                        </button>
                         <button 
                           onClick={() => handleOpenEditModal(student)}
-                          className="text-blue-500 hover:text-blue-600 hover:bg-blue-500/10 p-1.5 rounded transition-colors"
-                          title="Edit Student"
+                          className="bg-blue-500/10 text-blue-600 hover:bg-blue-500 hover:text-white p-2 rounded-lg transition-all"
+                          title="Edit Profile"
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button 
                           onClick={() => handleDelete(student.id)}
-                          className="text-red-500 hover:text-red-600 hover:bg-red-500/10 p-1.5 rounded transition-colors"
+                          className="bg-rose-500/10 text-rose-600 hover:bg-rose-500 hover:text-white p-2 rounded-lg transition-all"
                           title="Delete Student"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -227,11 +226,23 @@ export default function StudentsList() {
         )}
       </div>
       
+      {/* Student Profile Modal */}
       <StudentFormModal 
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        studentData={editingStudent}
-        onSubmit={handleFormSubmit}
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+        studentData={selectedStudent}
+        onSubmit={loadStudents}
+      />
+
+      {/* Batch Allocation Modal */}
+      <BatchAllocationModal
+        isOpen={isAllocationModalOpen}
+        onClose={() => {
+            setIsAllocationModalOpen(false);
+            setSelectedStudent(null);
+        }}
+        studentId={selectedStudent?.id || selectedStudent?._id}
+        onUpdate={loadStudents}
       />
     </div>
   );
