@@ -68,6 +68,27 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const loginWithToken = (token) => {
+    try {
+      // Decode JWT payload manually (Base64 decode)
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+
+      const decodedUser = JSON.parse(jsonPayload);
+      const profile = { ...decodedUser, token };
+      
+      setUser(profile);
+      localStorage.setItem('studyhub_user', JSON.stringify(profile));
+      return profile;
+    } catch (e) {
+      console.error('Invalid token or decoding failed:', e);
+      throw new Error('authentication_failed');
+    }
+  };
+
   const createTeacherAccount = async (name, email, password) => {
     if (user?.role !== 'ADMIN') {
       throw new Error('Only ADMIN can create TEACHER accounts.');
@@ -89,7 +110,17 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, loginWithOAuth, createTeacherAccount, logout, updateProfile, loading }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      login, 
+      signup, 
+      loginWithOAuth, 
+      loginWithToken, 
+      createTeacherAccount, 
+      logout, 
+      updateProfile, 
+      loading 
+    }}>
       {!loading && children}
     </AuthContext.Provider>
   );
