@@ -1,10 +1,9 @@
-  import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+  import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
   import { ThemeProvider } from './context/ThemeContext';
   import { AuthProvider, useAuth } from './context/AuthContext';
   import MainLayout from './components/Layout/MainLayout';
   import ProtectedRoute from './components/ProtectedRoute';
   import Login from './pages/auth/Login';
-  import Signup from './pages/auth/Signup';
   import Dashboard from './pages/Dashboard';
   import LandingPage from './pages/LandingPage';
   import Profile from './pages/Profile';
@@ -40,7 +39,7 @@
             <Routes>
               {/* Full Screen Auth Routes */}
               <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/signup" element={<Navigate to="/login" replace />} />
 
               {/* Layout Wraps Everything Else */}
               <Route element={<MainLayout />}>

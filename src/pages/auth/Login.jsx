@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Navigate, Link, useSearchParams } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { GraduationCap } from 'lucide-react';
 
 export default function Login() {
-  const { user, login, loginWithToken } = useAuth();
+  const { user, loginWithToken } = useAuth();
   const [searchParams] = useSearchParams();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   // Handle OAuth Redirection (Token and Error)
@@ -47,67 +45,28 @@ export default function Login() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-[var(--color-primary)]/20 to-blue-500/20 rounded-full blur-3xl -z-10 animate-pulse-slow"></div>
       
       <div className="w-full max-w-md p-8 sm:p-10 rounded-2xl bg-[var(--color-bg-alt)]/80 backdrop-blur-xl border border-[var(--color-border)] shadow-2xl animate-in zoom-in-95 duration-500 relative">
-        <div className="flex flex-col items-center mb-8">
-          <div className="h-16 w-16 mb-4 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-purple-500 flex items-center justify-center shadow-lg">
+        <div className="flex flex-col items-center mb-10">
+          <div className="h-16 w-16 mb-4 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-purple-500 flex items-center justify-center shadow-lg transform transition-transform hover:scale-105">
             <GraduationCap className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold tracking-tight text-center">Welcome to StudyHub</h1>
-          <p className="mt-2 text-sm text-[var(--color-text-muted)] text-center">
-            Log in to manage your tuition institute gracefully and efficiently.
+          <p className="mt-3 text-sm text-[var(--color-text-muted)] text-center leading-relaxed">
+            Securely access your personalized dashboard and academic resources using your Google account.
           </p>
         </div>
 
-        <form
-          className="space-y-4"
-          onSubmit={async (e) => {
-            e.preventDefault();
-            try {
-              setError('');
-              await login(email, password);
-            } catch (err) {
-              setError(err.message || 'Login failed');
-            }
-          }}
-        >
-          <div>
-            <label className="text-sm font-medium">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full mt-1 rounded-lg border p-2 bg-[var(--color-bg)] text-[var(--color-text)]"
-            />
+        {error && (
+          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-sm text-center font-medium animate-in slide-in-from-top-2">
+            {error}
           </div>
-          <div>
-            <label className="text-sm font-medium">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full mt-1 rounded-lg border p-2 bg-[var(--color-bg)] text-[var(--color-text)]"
-            />
-          </div>
-
-          {error && <p className="text-sm px-3 py-2 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500">{error}</p>}
-
-          <button
-            type="submit"
-            className="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-primary)] text-white font-semibold shadow-sm hover:brightness-110 transition"
-          >
-            Log In
-          </button>
-        </form>
-
-        <div className="mt-4 text-center text-sm">or</div>
+        )}
 
         <div className="space-y-4">
           <button
             onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] hover:bg-[var(--color-bg)]/80 text-[var(--color-text)] font-semibold shadow-sm transition-all hover:border-[var(--color-primary)]/50 focus:ring-2 focus:ring-[var(--color-primary)]/20"
+            className="w-full flex items-center justify-center gap-3 px-4 py-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] hover:bg-[var(--color-bg)]/80 text-[var(--color-text)] font-semibold shadow-sm transition-all hover:border-[var(--color-primary)]/50 hover:shadow-md focus:ring-2 focus:ring-[var(--color-primary)]/20"
           >
-            <svg className="w-5 h-5" viewBox="0 0 24 24">
+            <svg className="w-6 h-6" viewBox="0 0 24 24">
               <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
               <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
               <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
@@ -117,13 +76,9 @@ export default function Login() {
           </button>
         </div>
 
-        <div className="mt-6 text-center text-sm font-medium text-[var(--color-text)]">
-          Don't have an account?{' '}
-          <Link to="/signup" className="text-[var(--color-primary)] hover:underline">Sign up</Link>
-        </div>
-
-        <div className="mt-8 text-center text-xs text-[var(--color-text-muted)]">
-          By signing in, you agree to our Terms of Service and Privacy Policy.
+        <div className="mt-10 pt-6 border-t border-[var(--color-border)] text-center text-xs text-[var(--color-text-muted)]">
+          By signing in, you agree to our Terms of Service and Privacy Policy. <br />
+          Only verified student and administrative accounts are permitted.
         </div>
       </div>
     </div>

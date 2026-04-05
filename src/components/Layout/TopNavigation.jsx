@@ -109,9 +109,9 @@ export default function TopNavigation() {
               </>
             ) : (
               /* Public / Unauthenticated Actions */
-              <div className="flex items-center gap-3">
-                <Link to="/login" className="text-[13px] font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors px-2 py-1.5 rounded hover:bg-[var(--color-bg)]">Sign in</Link>
-                <Link to="/signup" className="text-[13px] font-medium text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] transition-colors px-4 py-1.5 rounded-md focus:outline-none">Sign up free</Link>
+              <div className="hidden lg:flex items-center gap-4">
+                <Link to="/login" className="text-[13px] font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors focus:outline-none">Log in</Link>
+                <Link to="/login" className="text-[13px] font-medium text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] transition-colors px-4 py-1.5 rounded-md focus:outline-none">Get Started</Link>
               </div>
             )}
           </div>
@@ -187,8 +187,10 @@ export default function TopNavigation() {
                  <button onClick={toggleTheme} className="self-end mb-2 p-2 rounded-md bg-[var(--color-bg)] text-[var(--color-text-muted)]">
                    {theme === 'dark' ? <Sun className="w-[18px] h-[18px]" /> : <Moon className="w-[18px] h-[18px]" />}
                  </button>
-                 <Link to="/login" onClick={() => setIsOpen(false)} className="block w-full text-center px-4 py-2.5 rounded border border-[var(--color-border)] text-sm font-medium text-[var(--color-text)]">Sign In</Link>
-                 <Link to="/signup" onClick={() => setIsOpen(false)} className="block w-full text-center px-4 py-2.5 rounded bg-[var(--color-primary)] text-sm font-medium text-white">Sign Up Free</Link>
+                 <div className="mt-8 space-y-3 pb-6 border-b border-[var(--color-border)]">
+                 <Link to="/login" onClick={() => setIsOpen(false)} className="block w-full text-center px-4 py-2.5 rounded border border-[var(--color-border)] text-[var(--color-text)] text-sm font-medium hover:bg-[var(--color-border)]">Log in</Link>
+                 <Link to="/login" onClick={() => setIsOpen(false)} className="block w-full text-center px-4 py-2.5 rounded bg-[var(--color-primary)] text-sm font-medium text-white">Get Started</Link>
+              </div>
                </div>
              )}
           </div>
