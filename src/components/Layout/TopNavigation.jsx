@@ -34,8 +34,8 @@ export default function TopNavigation() {
   
   const publicNavItems = [
     { name: 'Home', path: '/' },
-    { name: 'Features', path: '/features' },
-    { name: 'Pricing', path: '/pricing' },
+    // { name: 'Features', path: '/features' },
+    // { name: 'Pricing', path: '/pricing' },
   ];
 
   const navItems = user ? (user.role === 'ADMIN' ? adminNavItems : studentNavItems) : publicNavItems;
