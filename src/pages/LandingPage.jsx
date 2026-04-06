@@ -34,16 +34,10 @@ export default function LandingPage() {
             </p>
 
             {/* CTA */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-in slide-in-from-bottom-6 duration-700 delay-300">
+            <div className="flex gap-4 mt-8 animate-in slide-in-from-bottom-6 duration-700 delay-300">
               <Link
                 to="/login"
                 className="px-8 py-3 rounded-xl bg-[var(--color-primary)] text-white font-semibold text-lg hover:brightness-110 shadow-lg shadow-[var(--color-primary)]/25 transition-all outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary)]"
-              >
-                Start Teaching Now
-              </Link>
-              <Link
-                to="/login"
-                className="border px-6 py-3 rounded-lg font-semibold text-[var(--color-text)]"
               >
                 Student Login
               </Link>
