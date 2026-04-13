@@ -9,6 +9,7 @@ export default function StudentsList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('All');
 
   // Modal State
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -62,11 +63,13 @@ export default function StudentsList() {
 
   const filteredStudents = students.filter(student => {
     const query = searchQuery.toLowerCase();
-    return (
+    const matchesSearch = (
       (student.name?.toLowerCase().includes(query)) ||
       (student.email?.toLowerCase().includes(query)) ||
       (student.id?.toString().toLowerCase().includes(query))
     );
+    if (statusFilter === 'All') return matchesSearch;
+    return matchesSearch && student.status === statusFilter;
   });
 
   return (
@@ -111,10 +114,21 @@ export default function StudentsList() {
           </svg>
           Refresh
         </button>
-        <button className="inline-flex items-center gap-2 rounded-md bg-[var(--color-bg-alt)] px-3 py-2 text-sm font-semibold text-[var(--color-text)] shadow-sm ring-1 ring-inset ring-[var(--color-border)] hover:bg-[var(--color-bg)] transition-colors">
-          <Filter className="h-4 w-4 text-[var(--color-text-muted)]" />
-          Filters
-        </button>
+        <div className="relative inline-flex items-center gap-2 rounded-md bg-[var(--color-bg-alt)] px-3 py-2 text-sm font-semibold text-[var(--color-text)] shadow-sm ring-1 ring-inset ring-[var(--color-border)] hover:bg-[var(--color-bg)] transition-colors">
+          <Filter className="h-4 w-4 text-[var(--color-text-muted)] pointer-events-none" />
+          <select 
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="bg-transparent text-[var(--color-text)] outline-none border-none py-0 pl-1 pr-6 cursor-pointer font-semibold appearance-none"
+          >
+            <option value="All">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Warning">Warning</option>
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[var(--color-text-muted)]">
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+        </div>
       </div>
 
       <div className="overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)] shadow-sm">

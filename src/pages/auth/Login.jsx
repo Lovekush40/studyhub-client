@@ -36,7 +36,9 @@ export default function Login() {
 
   // Redirect to Dashboard if already logged in
   if (user) {
-    return <Navigate to="/" replace />;
+    // Force a hard navigation to avoid React state caching issues with the newly set token
+    window.location.href = '/';
+    return null;
   }
 
   return (
