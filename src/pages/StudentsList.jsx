@@ -8,6 +8,7 @@ export default function StudentsList() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Modal State
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -59,6 +60,15 @@ export default function StudentsList() {
     }
   };
 
+  const filteredStudents = students.filter(student => {
+    const query = searchQuery.toLowerCase();
+    return (
+      (student.name?.toLowerCase().includes(query)) ||
+      (student.email?.toLowerCase().includes(query)) ||
+      (student.id?.toString().toLowerCase().includes(query))
+    );
+  });
+
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       <div className="sm:flex sm:items-center sm:justify-between">
@@ -85,10 +95,22 @@ export default function StudentsList() {
           </div>
           <input
              type="text"
+             value={searchQuery}
+             onChange={(e) => setSearchQuery(e.target.value)}
              className="block w-full rounded-md border-0 py-2 pl-10 bg-[var(--color-bg-alt)] text-[var(--color-text)] ring-1 ring-inset ring-[var(--color-border)] placeholder:text-[var(--color-text-muted)] focus:ring-2 focus:ring-inset focus:ring-[var(--color-primary)] sm:text-sm sm:leading-6 outline-none"
              placeholder="Search by name, email or ID..."
           />
         </div>
+        <button 
+          onClick={loadStudents}
+          className="inline-flex items-center gap-2 rounded-md bg-[var(--color-bg-alt)] px-3 py-2 text-sm font-semibold text-[var(--color-text)] shadow-sm ring-1 ring-inset ring-[var(--color-border)] hover:bg-[var(--color-bg)] transition-colors"
+          title="Refresh Data"
+        >
+          <svg className="h-4 w-4 text-[var(--color-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          Refresh
+        </button>
         <button className="inline-flex items-center gap-2 rounded-md bg-[var(--color-bg-alt)] px-3 py-2 text-sm font-semibold text-[var(--color-text)] shadow-sm ring-1 ring-inset ring-[var(--color-border)] hover:bg-[var(--color-bg)] transition-colors">
           <Filter className="h-4 w-4 text-[var(--color-text-muted)]" />
           Filters
@@ -148,7 +170,7 @@ export default function StudentsList() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[var(--color-border)] bg-[var(--color-bg-alt)]">
-                {students.map((student) => (
+                {filteredStudents.map((student) => (
                   <tr key={student.id} className="hover:bg-[var(--color-bg)]/50 transition-all group">
                     <td className="whitespace-nowrap py-5 pl-6 pr-3">
                       <div className="flex items-center">
