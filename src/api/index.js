@@ -3,6 +3,9 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1';
 /**
  * Centralized API request handler with auth and error management
  */
+let isRefreshing = false;
+let refreshPromise = null;
+
 async function request(path, options = {}) {
   const tokenData = localStorage.getItem('studyhub_user');
   const token = tokenData ? JSON.parse(tokenData).token : null;
@@ -13,34 +16,68 @@ async function request(path, options = {}) {
   };
 
   const method = options.method || 'GET';
-  console.log(`📡 API Request: ${method} ${path}`, { 
-    token: token ? '✓ Present' : '✗ Missing',
-    hasBody: !!options.body 
-  });
+  const fetchOptions = {
+    headers,
+    credentials: 'omit', // Standard API calls without cookies initially
+    ...options,
+    body: options.body ? JSON.stringify(options.body) : undefined
+  };
 
   try {
-    const res = await fetch(`${BASE_URL}${path}`, {
-      headers,
-      ...options,
-      body: options.body ? JSON.stringify(options.body) : undefined
-    });
+    let res = await fetch(`${BASE_URL}${path}`, fetchOptions);
 
-    // Parse response
-    const responseData = await res.json().catch(() => ({}));
-
-    // Handle non-ok responses
+    // Standard Handle non-ok responses
     if (!res.ok) {
-      const errorMessage = responseData.error || responseData.message || res.statusText || 'Network error';
-      console.error(`❌ API Error ${res.status}:`, errorMessage);
-      throw new Error(errorMessage);
+      // 401 Interceptor specifically for Silent Token Refresh
+      if (res.status === 401) {
+        if (!isRefreshing) {
+          isRefreshing = true;
+          refreshPromise = fetch(`${BASE_URL}/auth/refresh`, { credentials: 'include' })
+            .then(async r => {
+               if (!r.ok) throw new Error('Refresh failed');
+               return r.json();
+            })
+            .then(data => {
+                if (data.token) {
+                    const ud = JSON.parse(localStorage.getItem('studyhub_user') || '{}');
+                    ud.token = data.token;
+                    localStorage.setItem('studyhub_user', JSON.stringify(ud));
+                    return data.token;
+                } else {
+                    throw new Error('Refresh token invalid');
+                }
+            })
+            .catch(err => {
+                localStorage.removeItem('studyhub_user');
+                window.location.href = '/login?error=session_expired';
+                throw err;
+            })
+            .finally(() => {
+                isRefreshing = false;
+                refreshPromise = null;
+            });
+        }
+
+        const newToken = await refreshPromise;
+        if (newToken) {
+          // Retry original request with new token
+          fetchOptions.headers['Authorization'] = `Bearer ${newToken}`;
+          res = await fetch(`${BASE_URL}${path}`, fetchOptions);
+        }
+      }
+
+      // If it's STILL not ok after a retry or wasn't a 401 to begin with
+      if (!res.ok) {
+        const responseData = await res.json().catch(() => ({}));
+        const errorMessage = responseData.error || responseData.message || res.statusText || 'Network error';
+        console.error(`❌ API Error ${res.status}:`, errorMessage);
+        throw new Error(errorMessage);
+      }
     }
 
-    // Extract data from response
+    // Parse Response
+    const responseData = await res.json().catch(() => ({}));
     const data = responseData.data !== undefined ? responseData.data : responseData;
-    console.log(`✅ API Response: ${method} ${path}`, { 
-      status: res.status,
-      dataType: Array.isArray(data) ? `Array[${data.length}]` : typeof data
-    });
     
     return data;
   } catch (error) {

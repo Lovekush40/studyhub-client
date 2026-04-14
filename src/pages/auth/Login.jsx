@@ -23,7 +23,8 @@ export default function Login() {
       const errorMap = {
         'email_not_verified': 'Google email is not verified. Please verify your email first.',
         'unauthorized_email': 'Your email is not authorized for this platform.',
-        'authentication_failed': 'Authentication failed. Please try again.'
+        'authentication_failed': 'Authentication failed. Please try again.',
+        'session_expired': 'Your session expired. Please sign in again with Google.'
       };
       setError(errorMap[errorParam] || 'Authentication failed. Please try again.');
     }
