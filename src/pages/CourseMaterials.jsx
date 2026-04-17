@@ -345,28 +345,3 @@ export default function CourseMaterials() {
     </div>
   );
 }
-                    <button onClick={() => handleEdit(item, activeTab)}>
-                      <Edit2 className="w-4 h-4 text-blue-500" />
-                    </button>
-                    <button onClick={() => handleDelete(activeTab, item.id)}>
-                      <Trash2 className="w-4 h-4 text-red-500" />
-                    </button>
-                  </div>
-                )}
-              </div>
-            ))}
-        </>
-      )}
-
-      {/* Modal */}
-      {isAdmin && (
-        <MaterialFormModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          materialData={editingMaterial}
-          onSubmit={handleMaterialSubmit}
-        />
-      )}
-    </div>
-  );
-}

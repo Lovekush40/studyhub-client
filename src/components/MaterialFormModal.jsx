@@ -192,56 +192,5 @@ export default function MaterialFormModal({
         </form>
       </div>
     </div>
-
-          {/* URL */}
-          <div>
-            <label className="text-sm text-[var(--color-text-muted)] block mb-1">
-              URL / Link
-            </label>
-            <input
-              type="url"
-              placeholder={
-                form.type === "videos"
-                  ? "https://youtube.com/..."
-                  : "https://link..."
-              }
-              value={form.url}
-              onChange={(e) =>
-                setForm({ ...form, url: e.target.value })
-              }
-              className="w-full px-3 py-2 rounded-md bg-[var(--color-bg-alt)] border border-[var(--color-border)] text-[var(--color-text)]"
-            />
-          </div>
-
-          {/* Buttons */}
-          <div className="flex justify-end gap-3 pt-4 border-t border-[var(--color-border)]">
-
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-sm text-[var(--color-text-muted)] border border-[var(--color-border)] rounded-md hover:bg-[var(--color-bg-alt)]"
-            >
-              Cancel
-            </button>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="flex items-center justify-center min-w-[90px] px-4 py-2 text-sm font-semibold text-white bg-[var(--color-primary)] rounded-md hover:bg-[var(--color-primary-hover)] disabled:opacity-70"
-            >
-              {loading ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : materialData ? (
-                "Update"
-              ) : (
-                "Save"
-              )}
-            </button>
-
-          </div>
-
-        </form>
-      </div>
-    </div>
   );
 }
