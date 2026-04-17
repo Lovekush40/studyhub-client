@@ -27,6 +27,7 @@ export default function TopNavigation() {
 
   const studentNavItems = [
     { name: 'Dashboard', path: '/' },
+    { name: 'Browse Courses', path: '/catalog' },
     { name: 'My Courses', path: '/courses' },
     { name: 'Assessments', path: '/tests' },
     { name: 'Results', path: '/reports' },

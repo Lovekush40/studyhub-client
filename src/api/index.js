@@ -204,6 +204,10 @@ export const fetchCourses = async () => {
   return request('/courses');
 };
 
+export const fetchAvailableCourses = async () => {
+  return request('/courses/available');
+};
+
 export const getCourse = async (id) => {
   return request(`/courses/${id}`);
 };
@@ -240,6 +244,23 @@ export const deleteCourse = async (id) => {
   return request(`/courses/${id}`, { 
     method: 'DELETE' 
   });
+};
+
+// Student Course Enrollment APIs
+export const enrollInCourse = async (courseId) => {
+  return request(`/courses/${courseId}/enroll`, {
+    method: 'POST'
+  });
+};
+
+export const unenrollFromCourse = async (courseId) => {
+  return request(`/courses/${courseId}/unenroll`, {
+    method: 'POST'
+  });
+};
+
+export const fetchStudentEnrolledCourses = async () => {
+  return request('/student/enrolled-courses');
 };
 
 // ============================================

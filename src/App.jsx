@@ -11,19 +11,7 @@
   import CoursesAndBatches from './pages/CoursesAndBatches';
   import TestsAndResults from './pages/TestsAndResults';
   import CourseMaterials from './pages/CourseMaterials';
-  import './App.css';
-
-  // Placeholder components for unimplemented paths
-  const PlaceholderPage = ({ title }) => (
-    <div className="flex flex-col items-center justify-center h-[60vh] text-center px-4 animate-in fade-in duration-500">
-      <div className="h-24 w-24 rounded-full bg-gradient-to-tr from-[var(--color-primary)]/20 to-blue-500/20 flex items-center justify-center mb-6">
-        <span className="text-4xl text-[var(--color-primary)]">🚧</span>
-      </div>
-      <h1 className="text-3xl font-bold tracking-tight text-[var(--color-text)] mb-2">{title} Page</h1>
-      <p className="text-lg text-[var(--color-text-muted)] max-w-md">
-        This section is under construction. It will be implemented in the next development phase based on the ER specs.
-      </p>
-    </div>
+import CourseCatalog from './pages/CourseCatalog';
   );
 
   function HomeOrDashboard() {
@@ -61,8 +49,11 @@
                   {/* Shared Accessible Routes */}
                   <Route path="/batches" element={<CoursesAndBatches />} />
                   <Route path="/courses" element={<CoursesAndBatches />} />
+                  <Route path="/catalog" element={<CourseCatalog />} />
+                  <Route path="/browse-courses" element={<CourseCatalog />} />
                   <Route path="/tests" element={<TestsAndResults />} />
                   <Route path="/course/:id" element={<CourseMaterials />} />
+                  <Route path="/course-materials/:id" element={<CourseMaterials />} />
                   <Route path="/content" element={<PlaceholderPage title="Content Library" />} />
                 </Route>
               </Route>

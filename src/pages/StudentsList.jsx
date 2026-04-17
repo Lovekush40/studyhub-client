@@ -78,16 +78,8 @@ export default function StudentsList() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-[var(--color-text)]">Students Directory</h1>
           <p className="text-sm mt-1 text-[var(--color-text-muted)]">
-            Manage student profiles and their batch enrollments.
+            View students who have enrolled in courses. Students automatically register when they join their first course.
           </p>
-        </div>
-        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <button 
-            type="button" 
-            onClick={handleOpenAddModal}
-            className="inline-flex items-center justify-center rounded-md bg-[var(--color-primary)] px-4 py-2 text-sm font-bold text-white shadow-sm hover:bg-[var(--color-primary-hover)] transition-all">
-            Register Student
-          </button>
         </div>
       </div>
 
