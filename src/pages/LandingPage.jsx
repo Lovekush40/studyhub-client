@@ -1,14 +1,12 @@
-import { useState } from "react";
+import AnnouncementsSection from "../components/Announcements/AnnouncementsSection";
+import ReviewsSection from "../components/Reviews/ReviewsSection";
+
 import { Link } from "react-router-dom";
 import { BookOpen, Users, BarChart3, ChevronRight, ShieldCheck, Zap } from "lucide-react";
 import StickyAnnouncementBar from "../components/Announcements/StickyAnnouncementBar";
-import AnnouncementsSection from "../components/Announcements/AnnouncementsSection";
-import ReviewsSection from "../components/Reviews/ReviewsSection";
-import ReviewSubmitModal from "../components/Reviews/ReviewSubmitModal";
 
 export default function LandingPage() {
   const COACHING_NAME = "Lakshya Academy";
-  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-4rem)] animate-in fade-in duration-500">
@@ -151,19 +149,13 @@ export default function LandingPage() {
 
       <section className="py-16 text-center bg-white">
         <h2 className="text-3xl font-bold mb-4 text-[var(--color-text)]">Share Your Experience</h2>
-        <button
-          onClick={() => setIsReviewModalOpen(true)}
-          className="bg-[var(--color-primary)] text-white px-8 py-3 rounded-xl font-bold hover:brightness-110 transition-all shadow-md mt-4"
+        <Link
+          to="/write-review"
+          className="inline-block bg-[var(--color-primary)] text-white px-8 py-3 rounded-xl font-bold hover:brightness-110 transition-all shadow-md mt-4"
         >
           Write a Review
-        </button>
+        </Link>
       </section>
-
-      <ReviewSubmitModal 
-        isOpen={isReviewModalOpen} 
-        onClose={() => setIsReviewModalOpen(false)}
-        onSuccess={() => alert('Thanks for your review! It will be published once approved.')}
-      />
 
     </div>
   );

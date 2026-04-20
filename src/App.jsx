@@ -12,6 +12,7 @@
   import TestsAndResults from './pages/TestsAndResults';
   import CourseMaterials from './pages/CourseMaterials';
   import CourseCatalog from './pages/CourseCatalog';
+  import WriteReview from './pages/WriteReview';
   import './App.css';
 
   // Placeholder components for unimplemented paths
@@ -68,6 +69,7 @@
                   <Route path="/course/:id" element={<CourseMaterials />} />
                   <Route path="/course-materials/:id" element={<CourseMaterials />} />
                   <Route path="/content" element={<PlaceholderPage title="Content Library" />} />
+                  <Route path="/write-review" element={<WriteReview />} />
                 </Route>
               </Route>
             </Routes>
