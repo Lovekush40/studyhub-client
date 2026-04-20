@@ -35,11 +35,9 @@ export default function Login() {
     window.location.href = `${API_URL}/auth/google`;
   };
 
-  // Redirect to Dashboard if already logged in
   if (user) {
-    // Force a hard navigation to avoid React state caching issues with the newly set token
-    window.location.href = '/';
-    return null;
+    // Force navigation
+    return <Navigate to="/" replace />;
   }
 
   return (
