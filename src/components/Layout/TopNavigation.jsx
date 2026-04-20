@@ -24,6 +24,7 @@ export default function TopNavigation() {
     { name: 'Courses', path: '/courses' },
     { name: 'Assessments', path: '/tests' },
     { name: 'Reviews', path: '/moderate-reviews' },
+    { name: 'Announcements', path: '/manage-announcements' },
   ];
 
   const studentNavItems = [

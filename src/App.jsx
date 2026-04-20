@@ -14,6 +14,7 @@
   import CourseCatalog from './pages/CourseCatalog';
   import WriteReview from './pages/WriteReview';
   import ReviewModeration from './components/Admin/ReviewModeration';
+  import AnnouncementManagement from './components/Admin/AnnouncementManagement';
   import './App.css';
 
   // Placeholder components for unimplemented paths
@@ -61,6 +62,7 @@
                   <Route path="/students" element={<ProtectedRoute allowedRoles={['ADMIN']}><StudentsList /></ProtectedRoute>} />
                   <Route path="/reports" element={<ProtectedRoute allowedRoles={['ADMIN']}><PlaceholderPage title="Institute Analytics" /></ProtectedRoute>} />
                   <Route path="/moderate-reviews" element={<ProtectedRoute allowedRoles={['ADMIN']}><div className="p-6"><ReviewModeration /></div></ProtectedRoute>} />
+                  <Route path="/manage-announcements" element={<ProtectedRoute allowedRoles={['ADMIN']}><div className="p-6"><AnnouncementManagement /></div></ProtectedRoute>} />
 
                   {/* Shared Accessible Routes */}
                   <Route path="/batches" element={<CoursesAndBatches />} />
