@@ -6,7 +6,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1';
 let isRefreshing = false;
 let refreshPromise = null;
 
-async function request(path, options = {}) {
+export async function request(path, options = {}) {
   const tokenData = localStorage.getItem('studyhub_user');
   const token = tokenData ? JSON.parse(tokenData).token : null;
   
