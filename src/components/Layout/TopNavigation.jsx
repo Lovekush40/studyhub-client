@@ -23,6 +23,7 @@ export default function TopNavigation() {
     { name: 'Batches', path: '/batches' },
     { name: 'Courses', path: '/courses' },
     { name: 'Assessments', path: '/tests' },
+    { name: 'Reviews', path: '/moderate-reviews' },
   ];
 
   const studentNavItems = [
@@ -31,6 +32,7 @@ export default function TopNavigation() {
     { name: 'My Courses', path: '/courses' },
     { name: 'Assessments', path: '/tests' },
     { name: 'Results', path: '/reports' },
+    { name: 'Review Us', path: '/write-review' },
   ];
   
   const publicNavItems = [

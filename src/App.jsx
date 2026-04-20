@@ -13,6 +13,7 @@
   import CourseMaterials from './pages/CourseMaterials';
   import CourseCatalog from './pages/CourseCatalog';
   import WriteReview from './pages/WriteReview';
+  import ReviewModeration from './components/Admin/ReviewModeration';
   import './App.css';
 
   // Placeholder components for unimplemented paths
@@ -59,6 +60,7 @@
                   {/* Admin Only Routes */}
                   <Route path="/students" element={<ProtectedRoute allowedRoles={['ADMIN']}><StudentsList /></ProtectedRoute>} />
                   <Route path="/reports" element={<ProtectedRoute allowedRoles={['ADMIN']}><PlaceholderPage title="Institute Analytics" /></ProtectedRoute>} />
+                  <Route path="/moderate-reviews" element={<ProtectedRoute allowedRoles={['ADMIN']}><div className="p-6"><ReviewModeration /></div></ProtectedRoute>} />
 
                   {/* Shared Accessible Routes */}
                   <Route path="/batches" element={<CoursesAndBatches />} />
