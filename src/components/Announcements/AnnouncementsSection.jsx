@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchActiveAnnouncements } from '../../api/announcementService';
 import { Bell, Clock } from 'lucide-react';
-import { formatDistanceToNow } from 'date-fns'; // Requires date-fns, but we'll use standard dates if not, let's use standard JS to be safe
+
 
 const AnnouncementsSection = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -45,7 +45,7 @@ const AnnouncementsSection = () => {
             className="group relative flex items-start space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100"
           >
             <div className={`
-              w-2h h-2 mt-2 rounded-full flex-shrink-0
+              w-2 h-2 mt-2 rounded-full flex-shrink-0
               ${announcement.priority === 'high' ? 'bg-red-500' : announcement.priority === 'medium' ? 'bg-yellow-500' : 'bg-blue-500'}
             `} />
             <div className="flex-1 min-w-0">
