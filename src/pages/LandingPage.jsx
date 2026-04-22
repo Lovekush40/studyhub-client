@@ -4,8 +4,10 @@ import ReviewsSection from "../components/Reviews/ReviewsSection";
 import { Link } from "react-router-dom";
 import { BookOpen, Users, BarChart3, ChevronRight, ShieldCheck, Zap } from "lucide-react";
 import StickyAnnouncementBar from "../components/Announcements/StickyAnnouncementBar";
+import { useAuth } from "../context/AuthContext";
 
 export default function LandingPage() {
+  const { user } = useAuth();
   const COACHING_NAME = "Lakshya Academy";
 
   return (
@@ -40,12 +42,21 @@ export default function LandingPage() {
 
             {/* CTA */}
             <div className="flex gap-4 mt-8 animate-in slide-in-from-bottom-6 duration-700 delay-300">
-              <Link
-                to="/login"
-                className="px-8 py-3 rounded-xl bg-[var(--color-primary)] text-white font-semibold text-lg hover:brightness-110 shadow-lg shadow-[var(--color-primary)]/25 transition-all outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary)]"
-              >
-                Student Login
-              </Link>
+              {user ? (
+                <Link
+                  to="/dashboard"
+                  className="px-8 py-3 rounded-xl bg-[var(--color-primary)] text-white font-semibold text-lg hover:brightness-110 shadow-lg shadow-[var(--color-primary)]/25 transition-all outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary)]"
+                >
+                  Go to Dashboard
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  className="px-8 py-3 rounded-xl bg-[var(--color-primary)] text-white font-semibold text-lg hover:brightness-110 shadow-lg shadow-[var(--color-primary)]/25 transition-all outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary)]"
+                >
+                  Student Login
+                </Link>
+              )}
             </div>
 
             {/* Stats */}

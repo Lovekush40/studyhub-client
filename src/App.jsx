@@ -30,10 +30,6 @@
     </div>
   );
 
-  function HomeOrDashboard() {
-    const { user } = useAuth();
-    return user ? <Dashboard /> : <LandingPage />;
-  }
 
   function App() {
     return (
@@ -47,8 +43,8 @@
 
               {/* Layout Wraps Everything Else */}
               <Route element={<MainLayout />}>
-                {/* Dynamic Root Route */}
-                <Route path="/" element={<HomeOrDashboard />} />
+                {/* Always show LandingPage at Root */}
+                <Route path="/" element={<LandingPage />} />
                 
                 {/* Features and Pricing placeholder pages, accessible publicly */}
                 <Route path="/features" element={<PlaceholderPage title="Features Showcase" />} />
@@ -57,6 +53,7 @@
                 {/* Secure Routes */}
                 <Route element={<ProtectedRoute />}>
                   <Route path="/profile" element={<Profile />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
                   
                   {/* Admin Only Routes */}
                   <Route path="/students" element={<ProtectedRoute allowedRoles={['ADMIN']}><StudentsList /></ProtectedRoute>} />

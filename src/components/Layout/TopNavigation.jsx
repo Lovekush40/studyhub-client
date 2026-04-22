@@ -18,7 +18,8 @@ export default function TopNavigation() {
   };
 
   const adminNavItems = [
-    { name: 'Dashboard', path: '/' },
+    { name: 'Home', path: '/' },
+    { name: 'Dashboard', path: '/dashboard' },
     { name: 'Students', path: '/students' },
     { name: 'Batches', path: '/batches' },
     { name: 'Courses', path: '/courses' },
@@ -28,7 +29,8 @@ export default function TopNavigation() {
   ];
 
   const studentNavItems = [
-    { name: 'Dashboard', path: '/' },
+    { name: 'Home', path: '/' },
+    { name: 'Dashboard', path: '/dashboard' },
     { name: 'Browse Courses', path: '/catalog' },
     { name: 'My Courses', path: '/courses' },
     { name: 'Assessments', path: '/tests' },
