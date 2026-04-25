@@ -23,6 +23,7 @@ export default function TopNavigation() {
     { name: 'Batches', path: '/batches' },
     { name: 'Courses', path: '/courses' },
     { name: 'Assessments', path: '/tests' },
+    { name: 'Results', path: '/reports' },
     { name: 'Reviews', path: '/moderate-reviews' },
     { name: 'Announcements', path: '/manage-announcements' },
   ];

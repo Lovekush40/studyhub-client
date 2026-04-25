@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Navigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { GraduationCap } from 'lucide-react';
 
 export default function Login() {
   const { user, loginWithToken } = useAuth();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [error, setError] = useState('');
 
   // Handle OAuth Redirection (Token and Error)
   useEffect(() => {
+    if (user) {
+      navigate('/', { replace: true });
+      return;
+    }
+
     const token = searchParams.get('token');
     const errorParam = searchParams.get('error');
 
@@ -30,15 +36,19 @@ export default function Login() {
     }
   }, [searchParams, loginWithToken]);
 
+  useEffect(() => {
+    if (user) {
+      navigate('/', { replace: true });
+    }
+  }, [user, navigate]);
+
   const handleGoogleLogin = () => {
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1';
     window.location.href = `${API_URL}/auth/google`;
   };
 
-  if (user) {
-    // Force navigation
-    return <Navigate to="/" replace />;
-  }
+  // Do not render the login form if we are about to navigate away
+  if (user) return null;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)] text-[var(--color-text)] relative overflow-hidden">

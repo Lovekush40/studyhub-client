@@ -332,6 +332,26 @@ export const addResult = async (resultData) => {
 };
 
 // ============================================
+// PUBLISHED RESULTS API
+// ============================================
+export const fetchPublishedResults = async () => {
+  return request('/published-results');
+};
+
+export const addPublishedResult = async (resultData) => {
+  return request('/published-results', {
+    method: 'POST',
+    body: resultData
+  });
+};
+
+export const deletePublishedResult = async (id) => {
+  return request(`/published-results/${id}`, {
+    method: 'DELETE'
+  });
+};
+
+// ============================================
 // MATERIALS/CONTENT API
 // ============================================
 export const fetchMaterials = async (filters = {}) => {

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { authenticateUser, registerUser, googleLoginWithToken, createTeacher } from '../api';
 
 const AuthContext = createContext();
@@ -68,7 +68,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const loginWithToken = (token) => {
+  const loginWithToken = useCallback((token) => {
     try {
       // Decode JWT payload manually (Base64 decode)
       const base64Url = token.split('.')[1];
@@ -87,7 +87,7 @@ export function AuthProvider({ children }) {
       console.error('Invalid token or decoding failed:', e);
       throw new Error('authentication_failed');
     }
-  };
+  }, []);
 
   const createTeacherAccount = async (name, email, password) => {
     if (user?.role !== 'ADMIN') {
