@@ -63,7 +63,6 @@
 
                   {/* Shared Accessible Routes */}
                   <Route path="/reports" element={<PublishedResults />} />
-                  <Route path="/batches" element={<CoursesAndBatches />} />
                   <Route path="/courses" element={<CoursesAndBatches />} />
                   <Route path="/catalog" element={<CourseCatalog />} />
                   <Route path="/browse-courses" element={<CourseCatalog />} />

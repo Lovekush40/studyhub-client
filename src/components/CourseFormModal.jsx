@@ -6,8 +6,7 @@ export default function CourseFormModal({ isOpen, onClose, courseData, onSubmit 
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    subjects: '',
-    activeBatches: 0
+    subjects: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -24,15 +23,13 @@ export default function CourseFormModal({ isOpen, onClose, courseData, onSubmit 
           description: courseData.description || '',
           subjects: Array.isArray(courseData.subjects) 
             ? courseData.subjects.join(', ')
-            : courseData.subjects || '',
-          activeBatches: courseData.activeBatches || 0
+            : courseData.subjects || ''
         });
       } else {
         setFormData({
           name: '',
           description: '',
-          subjects: '',
-          activeBatches: 0
+          subjects: ''
         });
       }
     }
@@ -43,7 +40,7 @@ export default function CourseFormModal({ isOpen, onClose, courseData, onSubmit 
     setError(null);
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'activeBatches' ? (value === '' ? 0 : Number(value)) : value
+      [name]: value
     }));
   };
 
@@ -59,7 +56,6 @@ export default function CourseFormModal({ isOpen, onClose, courseData, onSubmit 
     if (!formData.name.trim()) return 'Course name is required';
     if (!formData.description.trim()) return 'Description is required';
     if (!formData.subjects.trim()) return 'At least one subject is required';
-    if (formData.activeBatches < 0) return 'Active batches cannot be negative';
     return null;
   };
 
@@ -84,17 +80,14 @@ export default function CourseFormModal({ isOpen, onClose, courseData, onSubmit 
         subjects: formData.subjects
           .split(',')
           .map(s => s.trim())
-          .filter(s => s.length > 0),
-        activeBatches: Math.max(0, formData.activeBatches)
+          .filter(s => s.length > 0)
       };
 
       await onSubmit(submissionData);
-      // Reset form on success
       setFormData({
         name: '',
         description: '',
-        subjects: '',
-        activeBatches: 0
+        subjects: ''
       });
       setTouched({});
     } catch (err) {
@@ -193,20 +186,7 @@ export default function CourseFormModal({ isOpen, onClose, courseData, onSubmit 
           <p className="mt-1 text-xs text-[var(--color-text-muted)]">Separate multiple subjects with commas</p>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-[var(--color-text-muted)] mb-1">
-            Initial Active Batches
-          </label>
-          <input 
-            type="number" 
-            name="activeBatches" 
-            min="0"
-            value={formData.activeBatches} 
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className="w-full px-3 py-2 bg-[var(--color-bg)] text-[var(--color-text)] border border-[var(--color-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-colors"
-          />
-        </div>
+
 
         <div className="pt-4 flex justify-end gap-3 border-t border-[var(--color-border)] mt-6">
           <button 

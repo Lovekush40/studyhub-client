@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { fetchTestsList, addTest, updateTest, fetchCourses, fetchBatches, fetchResultsList, addResult, fetchStudentsList } from "../api";
+import { fetchTestsList, addTest, updateTest, fetchCourses, fetchResultsList, addResult, fetchStudentsList } from "../api";
 import TestFormModal from "../components/TestFormModal";
 import ResultFormModal from "../components/ResultFormModal";
 
@@ -35,21 +35,19 @@ export default function TestsAndResults() {
 
   // Data State
   const [courses, setCourses] = useState([]);
-  const [batches, setBatches] = useState([]);
   const [students, setStudents] = useState([]);
 
   //  Load Initial Data
   const loadTests = async () => {
     setLoading(true);
     try {
-      const promises = [fetchTestsList(), fetchCourses(), fetchBatches()];
+      const promises = [fetchTestsList(), fetchCourses()];
       if (isAdmin) promises.push(fetchStudentsList());
 
       const res = await Promise.all(promises);
       setTests(res[0]);
       setCourses(res[1]);
-      setBatches(res[2]);
-      if (isAdmin && res[3]) setStudents(res[3]);
+      if (isAdmin && res[2]) setStudents(res[2]);
     } catch (error) {
       console.error("Failed to load data", error);
     } finally {
@@ -361,7 +359,6 @@ export default function TestsAndResults() {
           testData={editingTest}
           onSubmit={handleTestSubmit}
           coursesList={courses}
-          batchesList={batches}
         />
 
         <ResultFormModal

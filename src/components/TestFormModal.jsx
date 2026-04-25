@@ -14,7 +14,6 @@ export default function TestFormModal({
     test_name: "",
     subject: "",
     course_id: "",
-    batch_id: "",
     date: "",
     duration: "",
     total_marks: "",
@@ -34,7 +33,6 @@ export default function TestFormModal({
         test_name: "",
         subject: "",
         course_id: "",
-        batch_id: "",
         date: "",
         duration: "",
         total_marks: "",
@@ -60,11 +58,6 @@ export default function TestFormModal({
 
     if (!formData.course_id) {
       alert("Please select a course");
-      return;
-    }
-
-    if (!formData.batch_id) {
-      alert("Please select a batch");
       return;
     }
 
@@ -129,32 +122,7 @@ export default function TestFormModal({
           </select>
         </div>
 
-        {/* Batch */}
-        <div>
-          <label className="block text-sm font-medium text-[var(--color-text-muted)] mb-1">
-            Batch
-          </label>
-          <select
-            name="batch_id"
-            required
-            value={formData.batch_id}
-            onChange={handleChange}
-            disabled={batchesList.length === 0}
-            className="w-full px-3 py-2 bg-[var(--color-bg)] text-[var(--color-text)] border border-[var(--color-border)] rounded-md focus:ring-2 focus:ring-[var(--color-primary)] disabled:opacity-50"
-          >
-            <option value="">
-              {batchesList.length === 0
-                ? "No batches available"
-                : "Select Batch"}
-            </option>
 
-            {batchesList.map((batch) => (
-              <option key={batch.id} value={batch.id}>
-                {batch.name}
-              </option>
-            ))}
-          </select>
-        </div>
 
         {/* Subject */}
         <div>
