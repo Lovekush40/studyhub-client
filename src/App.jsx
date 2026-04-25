@@ -7,7 +7,7 @@
   import Dashboard from './pages/Dashboard';
   import LandingPage from './pages/LandingPage';
   import Profile from './pages/Profile';
-  import StudentsList from './pages/StudentsList';
+
   import CoursesAndBatches from './pages/CoursesAndBatches';
   import TestsAndResults from './pages/TestsAndResults';
   import CourseMaterials from './pages/CourseMaterials';
@@ -56,7 +56,7 @@
                   <Route path="/dashboard" element={<Dashboard />} />
                   
                   {/* Admin Only Routes */}
-                  <Route path="/students" element={<ProtectedRoute allowedRoles={['ADMIN']}><StudentsList /></ProtectedRoute>} />
+
                   <Route path="/reports" element={<ProtectedRoute allowedRoles={['ADMIN']}><PlaceholderPage title="Institute Analytics" /></ProtectedRoute>} />
                   <Route path="/moderate-reviews" element={<ProtectedRoute allowedRoles={['ADMIN']}><div className="p-6"><ReviewModeration /></div></ProtectedRoute>} />
                   <Route path="/manage-announcements" element={<ProtectedRoute allowedRoles={['ADMIN']}><div className="p-6"><AnnouncementManagement /></div></ProtectedRoute>} />

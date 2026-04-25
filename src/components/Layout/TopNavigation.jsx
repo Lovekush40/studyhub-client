@@ -20,7 +20,6 @@ export default function TopNavigation() {
   const adminNavItems = [
     { name: 'Home', path: '/' },
     { name: 'Dashboard', path: '/dashboard' },
-    { name: 'Students', path: '/students' },
     { name: 'Batches', path: '/batches' },
     { name: 'Courses', path: '/courses' },
     { name: 'Assessments', path: '/tests' },
