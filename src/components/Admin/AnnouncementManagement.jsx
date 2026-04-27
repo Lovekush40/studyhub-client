@@ -13,6 +13,8 @@ const AnnouncementManagement = () => {
     title: '',
     content: '',
     priority: 'medium',
+    link: '',
+    category: 'General',
     active: true
   });
 
@@ -49,6 +51,8 @@ const AnnouncementManagement = () => {
       title: announcement.title,
       content: announcement.content,
       priority: announcement.priority || 'medium',
+      link: announcement.link || '',
+      category: announcement.category || 'General',
       active: announcement.active !== false
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -57,7 +61,7 @@ const AnnouncementManagement = () => {
   const handleCancel = () => {
     setIsEditing(false);
     setCurrentId(null);
-    setFormData({ title: '', content: '', priority: 'medium', active: true });
+    setFormData({ title: '', content: '', priority: 'medium', link: '', category: 'General', active: true });
   };
 
   const handleSubmit = async (e) => {
@@ -129,6 +133,30 @@ const AnnouncementManagement = () => {
                 <option value="medium">Medium (Yellow)</option>
                 <option value="high">High (Red Banner)</option>
               </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleInputChange}
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border bg-white"
+              >
+                <option value="General">General</option>
+                <option value="Examination">Examination</option>
+                <option value="Events">Events</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Page Link (Optional)</label>
+              <input
+                type="url"
+                name="link"
+                value={formData.link}
+                onChange={handleInputChange}
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+                placeholder="https://example.com/notice"
+              />
             </div>
           </div>
           <div>
@@ -209,13 +237,23 @@ const AnnouncementManagement = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
-                        ${item.priority === 'high' ? 'bg-red-100 text-red-800' : 
-                          item.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' : 
-                          'bg-blue-100 text-blue-800'}`}
-                      >
-                        {item.priority}
-                      </span>
+                      <div className="flex flex-col gap-1">
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize w-max
+                          ${item.priority === 'high' ? 'bg-red-100 text-red-800' : 
+                            item.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' : 
+                            'bg-blue-100 text-blue-800'}`}
+                        >
+                          {item.priority}
+                        </span>
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 w-max">
+                          {item.category || 'General'}
+                        </span>
+                        {item.link && (
+                          <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:underline">
+                            View Link
+                          </a>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button

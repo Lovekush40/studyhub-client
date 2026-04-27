@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { fetchActiveAnnouncements } from '../../api/announcementService';
-import { Bell, Clock } from 'lucide-react';
-
 
 const AnnouncementsSection = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('ALL');
 
   useEffect(() => {
     const loadData = async () => {
@@ -21,48 +20,93 @@ const AnnouncementsSection = () => {
     loadData();
   }, []);
 
-  if (loading) {
-    return <div className="p-8 text-center text-gray-500 animate-pulse">Loading announcements...</div>;
-  }
+  const tabs = ['ALL', 'Examination', 'Events', 'General'];
 
-  if (announcements.length === 0) {
-    return null;
-  }
+  const filteredAnnouncements = announcements.filter(a => {
+    if (activeTab === 'ALL') return true;
+    return (a.category || 'General') === activeTab;
+  });
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.toLocaleDateString('en-US', { weekday: 'short' });
+    const dom = String(date.getDate()).padStart(2, '0');
+    const month = date.toLocaleDateString('en-US', { month: 'short' });
+    const year = date.getFullYear();
+    return `${day}, ${dom} ${month} ${year}`;
+  };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
-      <div className="flex items-center space-x-3 mb-6 border-b border-gray-100 pb-4">
-        <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
-          <Bell className="w-5 h-5" />
-        </div>
-        <h2 className="text-xl font-bold text-gray-900">Latest Updates</h2>
+    <div className="bg-white rounded border border-gray-300 shadow-sm overflow-hidden flex flex-col">
+      {/* Header */}
+      <div className="bg-[#1f73b7] text-white text-center py-2 font-bold text-lg uppercase tracking-wider">
+        Notice Board
       </div>
 
-      <div className="space-y-4">
-        {announcements.map((announcement) => (
-          <div 
-            key={announcement._id || announcement.id} 
-            className="group relative flex items-start space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100"
+      {/* Tabs */}
+      <div className="flex border-b border-gray-200 overflow-x-auto hide-scrollbar">
+        {tabs.map(tab => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors ${
+              activeTab === tab 
+                ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/30' 
+                : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50'
+            }`}
           >
-            <div className={`
-              w-2 h-2 mt-2 rounded-full flex-shrink-0
-              ${announcement.priority === 'high' ? 'bg-red-500' : announcement.priority === 'medium' ? 'bg-yellow-500' : 'bg-blue-500'}
-            `} />
-            <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">{announcement.title}</h3>
-              <p className="text-gray-600 text-sm leading-relaxed mb-3">
-                {announcement.content}
-              </p>
-              <div className="flex items-center text-xs text-gray-400">
-                <Clock className="w-3.5 h-3.5 mr-1.5" />
-                {new Date(announcement.createdAt || announcement.created_at || Date.now()).toLocaleDateString(undefined, { 
-                  year: 'numeric', month: 'short', day: 'numeric' 
-                })}
-              </div>
-            </div>
-          </div>
+            {tab}
+          </button>
         ))}
       </div>
+
+      {/* Content */}
+      <div className="p-4 flex-1">
+        {loading ? (
+          <div className="text-center py-8 text-gray-500 animate-pulse">Loading notices...</div>
+        ) : filteredAnnouncements.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">No notices for this category.</div>
+        ) : (
+          <ul className="space-y-4">
+            {filteredAnnouncements.map((announcement) => (
+              <li key={announcement._id || announcement.id} className="flex items-start text-sm">
+                <img 
+                  src="https://img.icons8.com/?size=48&id=tHq3uPOfUuYQ&format=png" 
+                  alt="new" 
+                  className="w-8 h-4 object-contain mr-2 mt-0.5 animate-pulse shrink-0"
+                />
+                <div className="text-gray-800">
+                  {announcement.link ? (
+                    <a 
+                      href={announcement.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="hover:text-blue-600 hover:underline transition-colors"
+                    >
+                      {announcement.title}
+                    </a>
+                  ) : (
+                    <span>{announcement.title}</span>
+                  )}
+                  {' '}
+                  <span className="text-[#c13030] whitespace-nowrap">
+                    - {formatDate(announcement.createdAt || announcement.created_at || Date.now())}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* View More Button */}
+      {!loading && filteredAnnouncements.length > 0 && (
+        <div className="flex justify-center p-4 border-t border-gray-100">
+          <button className="bg-[#c13030] hover:bg-[#a02626] text-white text-sm font-medium px-4 py-1.5 rounded transition-colors shadow-sm">
+            View More
+          </button>
+        </div>
+      )}
     </div>
   );
 };
