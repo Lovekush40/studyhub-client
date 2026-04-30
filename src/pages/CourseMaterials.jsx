@@ -25,6 +25,7 @@ export default function CourseMaterials() {
   const [courseName, setCourseName] = useState("");
   const [course, setCourse] = useState(null);
   const [activeSubject, setActiveSubject] = useState("");
+  const [activeMaterialType, setActiveMaterialType] = useState(null); // 'videos', 'notes', 'assignments'
   const [loading, setLoading] = useState(true);
 
   // Materials grouped by subject then by type
@@ -196,7 +197,10 @@ export default function CourseMaterials() {
           {subjects.map((subject) => (
             <button 
               key={subject} 
-              onClick={() => setActiveSubject(subject)}
+              onClick={() => {
+                setActiveSubject(subject);
+                setActiveMaterialType(null); // Reset category view when subject changes
+              }}
               className={`py-3 px-4 whitespace-nowrap flex items-center gap-2 border-b-2 transition-colors ${
                 activeSubject === subject 
                   ? "border-[var(--color-primary)] text-[var(--color-primary)] font-semibold" 
@@ -217,115 +221,184 @@ export default function CourseMaterials() {
         </div>
       ) : (
         <div className="space-y-6">
-          {/* VIDEOS Section */}
-          {currentSubjectMaterials.videos.length > 0 && (
-            <div>
-              <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                <PlayCircle className="w-5 h-5 text-blue-500" />
-                Videos
-              </h3>
-              <div className="grid gap-4">
-                {currentSubjectMaterials.videos.map((v) => (
-                  <div key={v.id} className="p-4 border rounded-lg hover:shadow-md transition-shadow">
-                    <div className="flex justify-between mb-3">
-                      <p className="font-semibold text-base">{v.title}</p>
+          {activeMaterialType === null ? (
+            // The Three Boxes View
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+              {/* Videos Box */}
+              <button 
+                onClick={() => setActiveMaterialType('videos')}
+                className="flex flex-col items-center justify-center p-8 bg-white border border-gray-200 rounded-2xl hover:shadow-xl hover:border-blue-400 hover:-translate-y-1 transition-all group"
+              >
+                <div className="p-4 bg-blue-50 text-blue-500 rounded-full mb-4 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                  <PlayCircle className="w-10 h-10" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-800">Videos</h3>
+                <p className="text-gray-500 mt-2 font-medium">
+                  {currentSubjectMaterials.videos.length} {currentSubjectMaterials.videos.length === 1 ? 'Video' : 'Videos'}
+                </p>
+              </button>
 
-                      {isAdmin && (
-                        <div className="flex gap-2">
-                          <button onClick={() => handleEdit(v)} className="p-1 hover:bg-blue-100 rounded">
-                            <Edit2 className="w-4 h-4 text-blue-500" />
-                          </button>
-                          <button onClick={() => handleDelete(v.id)} className="p-1 hover:bg-red-100 rounded">
-                            <Trash2 className="w-4 h-4 text-red-500" />
-                          </button>
+              {/* Assignments Box */}
+              <button 
+                onClick={() => setActiveMaterialType('assignments')}
+                className="flex flex-col items-center justify-center p-8 bg-white border border-gray-200 rounded-2xl hover:shadow-xl hover:border-green-400 hover:-translate-y-1 transition-all group"
+              >
+                <div className="p-4 bg-green-50 text-green-500 rounded-full mb-4 group-hover:bg-green-500 group-hover:text-white transition-colors">
+                  <ClipboardList className="w-10 h-10" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-800">Assignments</h3>
+                <p className="text-gray-500 mt-2 font-medium">
+                  {currentSubjectMaterials.assignments.length} {currentSubjectMaterials.assignments.length === 1 ? 'Assignment' : 'Assignments'}
+                </p>
+              </button>
+
+              {/* Notes Box */}
+              <button 
+                onClick={() => setActiveMaterialType('notes')}
+                className="flex flex-col items-center justify-center p-8 bg-white border border-gray-200 rounded-2xl hover:shadow-xl hover:border-amber-400 hover:-translate-y-1 transition-all group"
+              >
+                <div className="p-4 bg-amber-50 text-amber-500 rounded-full mb-4 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                  <FileText className="w-10 h-10" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-800">Study Notes</h3>
+                <p className="text-gray-500 mt-2 font-medium">
+                  {currentSubjectMaterials.notes.length} {currentSubjectMaterials.notes.length === 1 ? 'File' : 'Files'}
+                </p>
+              </button>
+            </div>
+          ) : (
+            // Detailed View for a Selected Category
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <button 
+                onClick={() => setActiveMaterialType(null)}
+                className="flex items-center gap-2 text-[var(--color-primary)] hover:opacity-80 mb-6 font-medium transition-opacity bg-[var(--color-primary)]/10 px-4 py-2 rounded-lg w-max"
+              >
+                <ChevronLeft className="w-4 h-4" /> Back to Categories
+              </button>
+
+              {/* VIDEOS Section */}
+              {activeMaterialType === 'videos' && currentSubjectMaterials.videos.length > 0 && (
+                <div>
+                  <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                    <PlayCircle className="w-7 h-7 text-blue-500" />
+                    Videos
+                  </h3>
+                  <div className="grid gap-6 md:grid-cols-2">
+                    {currentSubjectMaterials.videos.map((v) => (
+                      <div key={v.id} className="p-4 border border-gray-200 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex justify-between mb-3 items-start">
+                          <h4 className="font-semibold text-lg leading-tight">{v.title}</h4>
+
+                          {isAdmin && (
+                            <div className="flex gap-1 shrink-0 ml-4">
+                              <button onClick={() => handleEdit(v)} className="p-1.5 hover:bg-blue-50 rounded-lg transition-colors">
+                                <Edit2 className="w-4 h-4 text-blue-500" />
+                              </button>
+                              <button onClick={() => handleDelete(v.id)} className="p-1.5 hover:bg-red-50 rounded-lg transition-colors">
+                                <Trash2 className="w-4 h-4 text-red-500" />
+                              </button>
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                    {v.description && <p className="text-sm text-[var(--color-text-muted)] mb-2">{v.description}</p>}
-                    <iframe 
-                      src={getEmbedUrl(v.file_url)} 
-                      className="w-full h-64 rounded-lg border"
-                      title={v.title}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* NOTES Section */}
-          {currentSubjectMaterials.notes.length > 0 && (
-            <div>
-              <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-amber-500" />
-                Study Notes
-              </h3>
-              <div className="space-y-2">
-                {currentSubjectMaterials.notes.map((item) => (
-                  <div key={item.id} className="flex justify-between items-center border p-4 rounded-lg bg-[var(--color-bg-alt)] hover:shadow-sm transition-all">
-                    <div className="flex-1">
-                      <a href={item.file_url} target="_blank" rel="noreferrer" className="font-medium text-[var(--color-primary)] hover:underline flex items-center gap-2">
-                        <FileText className="w-4 h-4" /> {item.title}
-                      </a>
-                      {item.description && <p className="text-sm text-[var(--color-text-muted)] mt-1">{item.description}</p>}
-                    </div>
-
-                    {isAdmin && (
-                      <div className="flex gap-2 border-l pl-4 ml-4">
-                        <button onClick={() => handleEdit(item)} className="p-1 hover:bg-blue-100 rounded">
-                          <Edit2 className="w-4 h-4 text-blue-500" />
-                        </button>
-                        <button onClick={() => handleDelete(item.id)} className="p-1 hover:bg-red-100 rounded">
-                          <Trash2 className="w-4 h-4 text-red-500" />
-                        </button>
+                        {v.description && <p className="text-sm text-gray-600 mb-4">{v.description}</p>}
+                        <div className="rounded-lg overflow-hidden border border-gray-100 bg-gray-50">
+                          <iframe 
+                            src={getEmbedUrl(v.file_url)} 
+                            className="w-full aspect-video"
+                            title={v.title}
+                            allowFullScreen
+                          />
+                        </div>
                       </div>
-                    )}
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
+                </div>
+              )}
 
-          {/* ASSIGNMENTS Section */}
-          {currentSubjectMaterials.assignments.length > 0 && (
-            <div>
-              <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                <ClipboardList className="w-5 h-5 text-green-500" />
-                Assignments
-              </h3>
-              <div className="space-y-2">
-                {currentSubjectMaterials.assignments.map((item) => (
-                  <div key={item.id} className="flex justify-between items-center border p-4 rounded-lg bg-[var(--color-bg-alt)] hover:shadow-sm transition-all">
-                    <div className="flex-1">
-                      <a href={item.file_url} target="_blank" rel="noreferrer" className="font-medium text-[var(--color-primary)] hover:underline flex items-center gap-2">
-                        <ClipboardList className="w-4 h-4" /> {item.title}
-                      </a>
-                      {item.description && <p className="text-sm text-[var(--color-text-muted)] mt-1">{item.description}</p>}
-                    </div>
+              {/* ASSIGNMENTS Section */}
+              {activeMaterialType === 'assignments' && currentSubjectMaterials.assignments.length > 0 && (
+                <div>
+                  <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                    <ClipboardList className="w-7 h-7 text-green-500" />
+                    Assignments
+                  </h3>
+                  <div className="space-y-3">
+                    {currentSubjectMaterials.assignments.map((item) => (
+                      <div key={item.id} className="flex flex-col sm:flex-row sm:justify-between sm:items-center border border-gray-200 p-5 rounded-xl bg-white shadow-sm hover:shadow-md hover:border-green-300 transition-all group">
+                        <div className="flex-1 mb-4 sm:mb-0">
+                          <a href={item.file_url} target="_blank" rel="noreferrer" className="text-lg font-semibold text-[var(--color-primary)] hover:text-green-600 transition-colors flex items-center gap-3">
+                            <div className="p-2 bg-green-50 rounded-lg group-hover:bg-green-100 transition-colors">
+                              <ClipboardList className="w-5 h-5 text-green-600" />
+                            </div>
+                            {item.title}
+                          </a>
+                          {item.description && <p className="text-sm text-gray-500 mt-2 ml-12">{item.description}</p>}
+                        </div>
 
-                    {isAdmin && (
-                      <div className="flex gap-2 border-l pl-4 ml-4">
-                        <button onClick={() => handleEdit(item)} className="p-1 hover:bg-blue-100 rounded">
-                          <Edit2 className="w-4 h-4 text-blue-500" />
-                        </button>
-                        <button onClick={() => handleDelete(item.id)} className="p-1 hover:bg-red-100 rounded">
-                          <Trash2 className="w-4 h-4 text-red-500" />
-                        </button>
+                        {isAdmin && (
+                          <div className="flex gap-2 sm:border-l sm:pl-4 sm:ml-4 border-gray-100 items-center justify-end">
+                            <button onClick={() => handleEdit(item)} className="p-2 hover:bg-blue-50 rounded-lg transition-colors">
+                              <Edit2 className="w-4 h-4 text-blue-500" />
+                            </button>
+                            <button onClick={() => handleDelete(item.id)} className="p-2 hover:bg-red-50 rounded-lg transition-colors">
+                              <Trash2 className="w-4 h-4 text-red-500" />
+                            </button>
+                          </div>
+                        )}
                       </div>
-                    )}
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
+                </div>
+              )}
 
-          {/* Empty State */}
-          {currentSubjectMaterials.videos.length === 0 && 
-           currentSubjectMaterials.notes.length === 0 && 
-           currentSubjectMaterials.assignments.length === 0 && (
-            <div className="text-center py-12 text-[var(--color-text-muted)] border rounded-lg border-dashed">
-              <BookOpen className="w-12 h-12 mx-auto mb-3 opacity-50" />
-              <p>No materials added yet for {activeSubject}</p>
+              {/* NOTES Section */}
+              {activeMaterialType === 'notes' && currentSubjectMaterials.notes.length > 0 && (
+                <div>
+                  <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                    <FileText className="w-7 h-7 text-amber-500" />
+                    Study Notes
+                  </h3>
+                  <div className="space-y-3">
+                    {currentSubjectMaterials.notes.map((item) => (
+                      <div key={item.id} className="flex flex-col sm:flex-row sm:justify-between sm:items-center border border-gray-200 p-5 rounded-xl bg-white shadow-sm hover:shadow-md hover:border-amber-300 transition-all group">
+                        <div className="flex-1 mb-4 sm:mb-0">
+                          <a href={item.file_url} target="_blank" rel="noreferrer" className="text-lg font-semibold text-[var(--color-primary)] hover:text-amber-600 transition-colors flex items-center gap-3">
+                            <div className="p-2 bg-amber-50 rounded-lg group-hover:bg-amber-100 transition-colors">
+                              <FileText className="w-5 h-5 text-amber-600" />
+                            </div>
+                            {item.title}
+                          </a>
+                          {item.description && <p className="text-sm text-gray-500 mt-2 ml-12">{item.description}</p>}
+                        </div>
+
+                        {isAdmin && (
+                          <div className="flex gap-2 sm:border-l sm:pl-4 sm:ml-4 border-gray-100 items-center justify-end">
+                            <button onClick={() => handleEdit(item)} className="p-2 hover:bg-blue-50 rounded-lg transition-colors">
+                              <Edit2 className="w-4 h-4 text-blue-500" />
+                            </button>
+                            <button onClick={() => handleDelete(item.id)} className="p-2 hover:bg-red-50 rounded-lg transition-colors">
+                              <Trash2 className="w-4 h-4 text-red-500" />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Empty State for the Selected Category */}
+              {currentSubjectMaterials[activeMaterialType].length === 0 && (
+                <div className="text-center py-20 px-4 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-gray-100">
+                    {activeMaterialType === 'videos' && <PlayCircle className="w-8 h-8 text-blue-400" />}
+                    {activeMaterialType === 'assignments' && <ClipboardList className="w-8 h-8 text-green-400" />}
+                    {activeMaterialType === 'notes' && <FileText className="w-8 h-8 text-amber-400" />}
+                  </div>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-2">No {activeMaterialType} found</h4>
+                  <p className="text-gray-500 max-w-sm mx-auto">There are currently no {activeMaterialType} available for this subject. Check back later.</p>
+                </div>
+              )}
             </div>
           )}
         </div>
