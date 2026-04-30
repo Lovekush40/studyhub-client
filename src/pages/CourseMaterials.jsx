@@ -324,19 +324,19 @@ export default function CourseMaterials() {
                   </h3>
                   <div className="space-y-3">
                     {currentSubjectMaterials.assignments.map((item) => (
-                      <div key={item.id} className="flex flex-col sm:flex-row sm:justify-between sm:items-center border border-gray-200 p-5 rounded-xl bg-white shadow-sm hover:shadow-md hover:border-green-300 transition-all group">
+                      <div key={item.id} className="flex flex-col sm:flex-row sm:justify-between sm:items-start border border-gray-200 p-5 rounded-xl bg-white shadow-sm hover:shadow-md hover:border-green-300 transition-all group">
                         <div className="flex-1 mb-4 sm:mb-0">
-                          <a href={item.file_url} target="_blank" rel="noreferrer" className="text-lg font-semibold text-[var(--color-primary)] hover:text-green-600 transition-colors flex items-center gap-3">
-                            <div className="p-2 bg-green-50 rounded-lg group-hover:bg-green-100 transition-colors">
+                          <a href={item.file_url} target="_blank" rel="noreferrer" className="text-lg font-semibold text-[var(--color-primary)] hover:text-green-600 transition-colors flex items-start sm:items-center gap-3">
+                            <div className="p-2 bg-green-50 rounded-lg group-hover:bg-green-100 transition-colors shrink-0">
                               <ClipboardList className="w-5 h-5 text-green-600" />
                             </div>
-                            {item.title}
+                            <span className="mt-1 sm:mt-0">{item.title}</span>
                           </a>
                           {item.description && <p className="text-sm text-gray-500 mt-2 ml-12">{item.description}</p>}
                         </div>
 
                         {isAdmin && (
-                          <div className="flex gap-2 sm:border-l sm:pl-4 sm:ml-4 border-gray-100 items-center justify-end">
+                          <div className="flex gap-2 sm:border-l sm:pl-4 sm:ml-4 border-gray-100 items-center justify-end mt-4 sm:mt-0">
                             <button onClick={() => handleEdit(item)} className="p-2 hover:bg-blue-50 rounded-lg transition-colors">
                               <Edit2 className="w-4 h-4 text-blue-500" />
                             </button>
@@ -360,19 +360,19 @@ export default function CourseMaterials() {
                   </h3>
                   <div className="space-y-3">
                     {currentSubjectMaterials.notes.map((item) => (
-                      <div key={item.id} className="flex flex-col sm:flex-row sm:justify-between sm:items-center border border-gray-200 p-5 rounded-xl bg-white shadow-sm hover:shadow-md hover:border-amber-300 transition-all group">
+                      <div key={item.id} className="flex flex-col sm:flex-row sm:justify-between sm:items-start border border-gray-200 p-5 rounded-xl bg-white shadow-sm hover:shadow-md hover:border-amber-300 transition-all group">
                         <div className="flex-1 mb-4 sm:mb-0">
-                          <a href={item.file_url} target="_blank" rel="noreferrer" className="text-lg font-semibold text-[var(--color-primary)] hover:text-amber-600 transition-colors flex items-center gap-3">
-                            <div className="p-2 bg-amber-50 rounded-lg group-hover:bg-amber-100 transition-colors">
+                          <a href={item.file_url} target="_blank" rel="noreferrer" className="text-lg font-semibold text-[var(--color-primary)] hover:text-amber-600 transition-colors flex items-start sm:items-center gap-3">
+                            <div className="p-2 bg-amber-50 rounded-lg group-hover:bg-amber-100 transition-colors shrink-0">
                               <FileText className="w-5 h-5 text-amber-600" />
                             </div>
-                            {item.title}
+                            <span className="mt-1 sm:mt-0">{item.title}</span>
                           </a>
                           {item.description && <p className="text-sm text-gray-500 mt-2 ml-12">{item.description}</p>}
                         </div>
 
                         {isAdmin && (
-                          <div className="flex gap-2 sm:border-l sm:pl-4 sm:ml-4 border-gray-100 items-center justify-end">
+                          <div className="flex gap-2 sm:border-l sm:pl-4 sm:ml-4 border-gray-100 items-center justify-end mt-4 sm:mt-0">
                             <button onClick={() => handleEdit(item)} className="p-2 hover:bg-blue-50 rounded-lg transition-colors">
                               <Edit2 className="w-4 h-4 text-blue-500" />
                             </button>
