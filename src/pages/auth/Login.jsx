@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { GraduationCap } from 'lucide-react';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { GraduationCap, X } from 'lucide-react';
 
 export default function Login() {
   const { user, loginWithToken } = useAuth();
@@ -56,6 +56,14 @@ export default function Login() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-[var(--color-primary)]/20 to-blue-500/20 rounded-full blur-3xl -z-10 animate-pulse-slow"></div>
       
       <div className="w-full max-w-md p-8 sm:p-10 rounded-2xl bg-[var(--color-bg-alt)]/80 backdrop-blur-xl border border-[var(--color-border)] shadow-2xl animate-in zoom-in-95 duration-500 relative">
+        <Link 
+          to="/" 
+          className="absolute top-4 right-4 p-2 text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-bg)] rounded-full transition-colors"
+          title="Back to Home"
+        >
+          <X className="w-5 h-5" />
+        </Link>
+        
         <div className="flex flex-col items-center mb-10">
           <div className="h-16 w-16 mb-4 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-purple-500 flex items-center justify-center shadow-lg transform transition-transform hover:scale-105">
             <GraduationCap className="h-8 w-8 text-white" />

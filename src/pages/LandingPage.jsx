@@ -29,10 +29,9 @@ export default function LandingPage() {
 
             <h1 className="text-3xl sm:text-5xl font-extrabold text-[var(--color-text)] leading-tight">
               <span className="text-[var(--color-primary)]">
-                {COACHING_NAME}
+                {COACHING_NAME}:
               </span>
-              : Turning Aspirations into Achievements<br />
-              
+              <br className="hidden sm:block" /> Turning Aspirations into Achievements
             </h1>
 
             <p className="mt-4 text-lg text-[var(--color-text-muted)] max-w-xl">
@@ -54,7 +53,7 @@ export default function LandingPage() {
                   to="/login"
                   className="px-8 py-3 rounded-xl bg-[var(--color-primary)] text-white font-semibold text-lg hover:brightness-110 shadow-lg shadow-[var(--color-primary)]/25 transition-all outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary)]"
                 >
-                  Student Login
+                  Login
                 </Link>
               )}
             </div>
@@ -88,7 +87,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features */}
-      <section className="py-20 bg-[var(--color-bg-alt)] border-t">
+      <section className="py-20 bg-[var(--color-bg-alt)] border-y border-[var(--color-border)] shadow-sm">
         <div className="max-w-7xl mx-auto px-4">
 
           <div className="text-center mb-12">
@@ -150,7 +149,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <section className="py-12 bg-gray-50 border-t border-[var(--color-border)]">
+      <section className="py-12 bg-gray-50 border border-[var(--color-border)] shadow-md rounded-2xl mx-4 sm:mx-6 lg:mx-auto max-w-7xl my-16 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
           <AnnouncementsSection />
         </div>
@@ -158,8 +157,8 @@ export default function LandingPage() {
 
       <ReviewsSection />
 
-      <section className="py-16 text-center bg-white">
-        <h2 className="text-3xl font-bold mb-4 text-[var(--color-text)]">Share Your Experience</h2>
+      <section className="py-16 text-center bg-white border-t border-gray-100">
+        <h2 className="text-3xl font-bold mb-4 text-gray-900">Share Your Experience</h2>
         <Link
           to="/write-review"
           className="inline-block bg-[var(--color-primary)] text-white px-8 py-3 rounded-xl font-bold hover:brightness-110 transition-all shadow-md mt-4"
