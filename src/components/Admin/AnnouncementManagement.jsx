@@ -15,6 +15,7 @@ const AnnouncementManagement = () => {
     priority: 'medium',
     link: '',
     category: 'General',
+    eventDate: '',
     active: true
   });
 
@@ -53,6 +54,7 @@ const AnnouncementManagement = () => {
       priority: announcement.priority || 'medium',
       link: announcement.link || '',
       category: announcement.category || 'General',
+      eventDate: announcement.eventDate ? new Date(announcement.eventDate).toISOString().split('T')[0] : '',
       active: announcement.active !== false
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -61,7 +63,7 @@ const AnnouncementManagement = () => {
   const handleCancel = () => {
     setIsEditing(false);
     setCurrentId(null);
-    setFormData({ title: '', content: '', priority: 'medium', link: '', category: 'General', active: true });
+    setFormData({ title: '', content: '', priority: 'medium', link: '', category: 'General', eventDate: '', active: true });
   };
 
   const handleSubmit = async (e) => {
@@ -108,7 +110,7 @@ const AnnouncementManagement = () => {
           {isEditing ? 'Edit Announcement' : 'Create New Announcement'}
         </h3>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
               <input
@@ -233,7 +235,8 @@ const AnnouncementManagement = () => {
                       <div className="text-sm font-medium text-gray-900">{item.title}</div>
                       <div className="text-sm text-gray-500 mt-1 max-w-xl truncate">{item.content}</div>
                       <div className="text-xs text-gray-400 mt-1">
-                        {new Date(item.createdAt || Date.now()).toLocaleString()}
+                        Posted: {new Date(item.createdAt || Date.now()).toLocaleString()}
+                        {item.eventDate && ` • Event: ${new Date(item.eventDate).toLocaleDateString()}`}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
