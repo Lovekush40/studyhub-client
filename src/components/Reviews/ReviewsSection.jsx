@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { fetchApprovedReviews } from '../../api/reviewService';
-import { Star, MessageSquareQuote } from 'lucide-react';
+import { Star, MessageSquareQuote, X } from 'lucide-react';
 
 const ReviewsSection = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedReview, setSelectedReview] = useState(null);
 
   useEffect(() => {
     const loadReviews = async () => {
@@ -44,7 +45,8 @@ const ReviewsSection = () => {
           {reviews.map((review) => (
             <div 
               key={review._id || review.id} 
-              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow border border-gray-100 relative group"
+              onClick={() => setSelectedReview(review)}
+              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-all border border-gray-100 relative group cursor-pointer hover:border-blue-200 hover:-translate-y-1"
             >
               <MessageSquareQuote className="absolute top-8 right-8 w-8 h-8 text-gray-100 group-hover:text-blue-50 transition-colors" />
               
@@ -80,6 +82,51 @@ const ReviewsSection = () => {
           ))}
         </div>
       </div>
+
+      {/* Full Review Modal */}
+      {selectedReview && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl w-full max-w-lg p-6 sm:p-8 relative shadow-2xl animate-in zoom-in-95 duration-200">
+            <button 
+              onClick={() => setSelectedReview(null)}
+              className="absolute top-4 right-4 p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-800 rounded-full transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            
+            <div className="flex items-center mb-6 border-b border-gray-100 pb-4 pr-8">
+              <div className="flex-shrink-0 bg-blue-100 text-blue-600 font-bold rounded-full w-12 h-12 flex items-center justify-center text-lg">
+                {(selectedReview.student?.name || 'A')[0].toUpperCase()}
+              </div>
+              <div className="ml-4">
+                <h4 className="font-bold text-gray-900 text-lg">
+                  {selectedReview.student?.name || 'Anonymous Student'}
+                </h4>
+                <div className="flex mt-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star 
+                      key={i} 
+                      className={`w-4 h-4 ${i < selectedReview.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-200'}`} 
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            <div className="max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+              <p className="text-gray-700 italic text-lg leading-relaxed whitespace-pre-wrap">
+                "{selectedReview.comment}"
+              </p>
+            </div>
+            
+            <div className="mt-6 pt-4 border-t border-gray-100 text-right text-sm text-gray-500">
+              Posted on {new Date(selectedReview.createdAt || Date.now()).toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { fetchActiveAnnouncements } from '../../api/announcementService';
+import { BellRing, ExternalLink, CalendarDays } from 'lucide-react';
 
 const AnnouncementsSection = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('ALL');
+  const [visibleCount, setVisibleCount] = useState(5);
 
   useEffect(() => {
     const loadData = async () => {
@@ -27,6 +29,8 @@ const AnnouncementsSection = () => {
     return (a.category || 'General') === activeTab;
   });
 
+  const visibleAnnouncements = filteredAnnouncements.slice(0, visibleCount);
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.toLocaleDateString('en-US', { weekday: 'short' });
@@ -48,7 +52,10 @@ const AnnouncementsSection = () => {
         {tabs.map(tab => (
           <button
             key={tab}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => {
+              setActiveTab(tab);
+              setVisibleCount(5);
+            }}
             className={`px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors ${
               activeTab === tab 
                 ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/30' 
@@ -68,30 +75,33 @@ const AnnouncementsSection = () => {
           <div className="text-center py-8 text-gray-500">No notices for this category.</div>
         ) : (
           <ul className="space-y-4">
-            {filteredAnnouncements.map((announcement) => (
-              <li key={announcement._id || announcement.id} className="flex items-start text-sm">
-                <img 
-                  src="https://img.icons8.com/?size=48&id=tHq3uPOfUuYQ&format=png" 
-                  alt="new" 
-                  className="w-8 h-4 object-contain mr-2 mt-0.5 animate-pulse shrink-0"
-                />
-                <div className="text-gray-800">
+            {visibleAnnouncements.map((announcement) => (
+              <li key={announcement._id || announcement.id} className="flex items-start text-sm group">
+                <div className="shrink-0 mr-3 mt-0.5">
+                  <div className="p-1.5 bg-blue-50 text-blue-500 rounded-lg group-hover:bg-blue-100 transition-colors">
+                    <BellRing className="w-4 h-4" />
+                  </div>
+                </div>
+                <div className="text-gray-800 flex-1">
                   {announcement.link ? (
                     <a 
                       href={announcement.link} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="hover:text-blue-600 hover:underline transition-colors"
+                      className="hover:text-blue-600 hover:underline transition-colors font-medium inline-flex items-center gap-1"
                     >
-                      {announcement.title}
+                      <span className="capitalize">{announcement.title}</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
                     </a>
                   ) : (
-                    <span>{announcement.title}</span>
+                    <span className="font-medium capitalize">{announcement.title}</span>
                   )}
                   {' '}
-                  <span className="text-[#c13030] whitespace-nowrap">
-                    - {formatDate(announcement.createdAt || announcement.created_at || Date.now())}
+                  <span className="text-[#c13030] whitespace-nowrap inline-flex items-center gap-1 text-xs font-medium ml-2">
+                    <CalendarDays className="w-3 h-3" />
+                    {formatDate(announcement.eventDate || announcement.createdAt || announcement.created_at || Date.now())}
                   </span>
+                  {announcement.content && <p className="text-gray-500 text-xs mt-1 leading-relaxed capitalize">{announcement.content}</p>}
                 </div>
               </li>
             ))}
@@ -100,10 +110,13 @@ const AnnouncementsSection = () => {
       </div>
 
       {/* View More Button */}
-      {!loading && filteredAnnouncements.length > 0 && (
+      {!loading && filteredAnnouncements.length > visibleCount && (
         <div className="flex justify-center p-4 border-t border-gray-100">
-          <button className="bg-[#c13030] hover:bg-[#a02626] text-white text-sm font-medium px-4 py-1.5 rounded transition-colors shadow-sm">
-            View More
+          <button 
+            onClick={() => setVisibleCount(prev => prev + 5)}
+            className="bg-white border border-[#c13030] text-[#c13030] hover:bg-[#c13030] hover:text-white text-sm font-medium px-6 py-2 rounded-lg transition-colors shadow-sm"
+          >
+            Load More Notices
           </button>
         </div>
       )}

@@ -160,6 +160,16 @@ const AnnouncementManagement = () => {
                 placeholder="https://example.com/notice"
               />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Event Date (Optional)</label>
+              <input
+                type="date"
+                name="eventDate"
+                value={formData.eventDate}
+                onChange={handleInputChange}
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+              />
+            </div>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
