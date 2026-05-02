@@ -116,7 +116,7 @@ const AnnouncementsSection = () => {
             onClick={() => setVisibleCount(prev => prev + 5)}
             className="bg-white border border-[#c13030] text-[#c13030] hover:bg-[#c13030] hover:text-white text-sm font-medium px-6 py-2 rounded-lg transition-colors shadow-sm"
           >
-            Load More Notices
+            View More
           </button>
         </div>
       )}
