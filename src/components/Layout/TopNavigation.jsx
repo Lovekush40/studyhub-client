@@ -54,7 +54,7 @@ export default function TopNavigation() {
           <div className="flex items-center gap-6">
             {/* Logo Brand */}
             <Link to="/" className="flex-shrink-0 flex items-center gap-1.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-primary)] rounded">
-              <img src='/studyhub_logo.png' alt="StudyHub Logo" className='h-10 w-10 object-contain'/>
+              <img src='/navLogo.png' alt="StudyHub Logo" className='h-10 w-10 object-contain'/>
               <span className="font-bold text-lg tracking-tight text-[var(--color-text)] hidden sm:block">
                 StudyHub
               </span>
