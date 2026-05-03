@@ -8,13 +8,14 @@ export default function Profile() {
   // Local state for the form, initialized with context user data
   const [formData, setFormData] = useState({
     name: user?.name || '',
-    contact: user?.contact || '',
-    address: user?.address || '',
-    dob: user?.dob || '',
+    contact: user?.student?.contact || user?.contact || '',
+    address: user?.student?.address || user?.address || '',
+    dob: user?.student?.dob ? new Date(user?.student?.dob).toISOString().split('T')[0] : user?.dob || '',
   });
 
   const [saving, setSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [saveError, setSaveError] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,19 +23,23 @@ export default function Profile() {
     setSaveSuccess(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
+    setSaveError('');
     
-    // Simulate network delay for realism
-    setTimeout(() => {
-      updateProfile(formData);
-      setSaving(false);
+    try {
+      await updateProfile(formData);
       setSaveSuccess(true);
       
       // Hide success message after 3 seconds
       setTimeout(() => setSaveSuccess(false), 3000);
-    }, 600);
+    } catch (error) {
+      console.error('Profile update failed:', error);
+      setSaveError(error.message || 'Failed to update profile');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -185,6 +190,12 @@ export default function Profile() {
             </button>
 
             <div className="flex items-center gap-4">
+              {saveError && (
+                <span className="text-sm font-medium text-red-500 flex items-center gap-1 animate-in fade-in slide-in-from-right-2">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  {saveError}
+                </span>
+              )}
               {saveSuccess && (
                 <span className="text-sm font-medium text-emerald-500 flex items-center gap-1 animate-in fade-in slide-in-from-right-2">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>

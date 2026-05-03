@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { authenticateUser, registerUser, googleLoginWithToken, createTeacher } from '../api';
+import { authenticateUser, registerUser, googleLoginWithToken, createTeacher, updateProfile as updateProfileAPI } from '../api';
 
 const AuthContext = createContext();
 
@@ -97,11 +97,28 @@ export function AuthProvider({ children }) {
     return result;
   };
 
-  const updateProfile = (updates) => {
+  const updateProfile = async (updates) => {
     if (!user) return;
-    const updatedUser = { ...user, ...updates };
-    setUser(updatedUser);
-    localStorage.setItem('studyhub_user', JSON.stringify(updatedUser));
+    
+    try {
+      const result = await updateProfileAPI(updates);
+      
+      // Update local state with the response from backend
+      const updatedUser = { 
+        ...user, 
+        ...result.user,
+        // Include student data if available
+        ...(result.student && { student: result.student })
+      };
+      
+      setUser(updatedUser);
+      localStorage.setItem('studyhub_user', JSON.stringify(updatedUser));
+      
+      return updatedUser;
+    } catch (error) {
+      console.error('Profile update failed:', error);
+      throw error;
+    }
   };
 
   const logout = () => {

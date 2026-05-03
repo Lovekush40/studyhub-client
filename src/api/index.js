@@ -420,6 +420,13 @@ export const createTeacher = async (token, name, email, password) => {
   });
 };
 
+export const updateProfile = async (profileData) => {
+  return request('/auth/profile', {
+    method: 'PUT',
+    body: profileData
+  });
+};
+
 export const fetchDemoGoogleAuth = () => {
   return request('/auth/google');
 };
