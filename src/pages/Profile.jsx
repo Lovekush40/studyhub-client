@@ -1,17 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Save, LogOut, User, Mail, Phone, MapPin, Calendar } from 'lucide-react';
 
 export default function Profile() {
   const { user, updateProfile, logout } = useAuth();
   
-  // Local state for the form, initialized with context user data
   const [formData, setFormData] = useState({
-    name: user?.name || '',
-    contact: user?.student?.contact || user?.contact || '',
-    address: user?.student?.address || user?.address || '',
-    dob: user?.student?.dob ? new Date(user?.student?.dob).toISOString().split('T')[0] : user?.dob || '',
+    name: '',
+    contact: '',
+    address: '',
+    dob: ''
   });
+
+  useEffect(() => {
+    if (!user) return;
+
+    setFormData({
+      name: user.name || '',
+      contact: user.student?.contact || user.contact || '',
+      address: user.student?.address || user.address || '',
+      dob: user.student?.dob ? new Date(user.student.dob).toISOString().split('T')[0] : user.dob || ''
+    });
+  }, [user]);
 
   const [saving, setSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);

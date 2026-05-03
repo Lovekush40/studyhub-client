@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { authenticateUser, registerUser, googleLoginWithToken, createTeacher, updateProfile as updateProfileAPI } from '../api';
+import { authenticateUser, registerUser, googleLoginWithToken, createTeacher, updateProfile as updateProfileAPI, fetchCurrentUser } from '../api';
 
 const AuthContext = createContext();
 
@@ -19,6 +19,26 @@ export function AuthProvider({ children }) {
     }
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    const syncStoredProfile = async () => {
+      if (!user?.token || user?.student) return;
+      try {
+        const fullProfile = await fetchCurrentUser();
+        const mergedProfile = {
+          ...user,
+          ...fullProfile.user,
+          ...(fullProfile.student && { student: fullProfile.student })
+        };
+        setUser(mergedProfile);
+        localStorage.setItem('studyhub_user', JSON.stringify(mergedProfile));
+      } catch (error) {
+        console.warn('Could not refresh user profile from server:', error);
+      }
+    };
+
+    syncStoredProfile();
+  }, [user?.token, user?.student]);
 
   const login = async (email, password) => {
     setLoading(true);
@@ -68,7 +88,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const loginWithToken = useCallback((token) => {
+  const loginWithToken = useCallback(async (token) => {
     try {
       // Decode JWT payload manually (Base64 decode)
       const base64Url = token.split('.')[1];
@@ -79,10 +99,20 @@ export function AuthProvider({ children }) {
 
       const decodedUser = JSON.parse(jsonPayload);
       const profile = { ...decodedUser, token };
-      
       setUser(profile);
       localStorage.setItem('studyhub_user', JSON.stringify(profile));
-      return profile;
+
+      const fullProfile = await fetchCurrentUser();
+      const mergedProfile = {
+        ...profile,
+        ...fullProfile.user,
+        ...(fullProfile.student && { student: fullProfile.student })
+      };
+
+      setUser(mergedProfile);
+      localStorage.setItem('studyhub_user', JSON.stringify(mergedProfile));
+
+      return mergedProfile;
     } catch (e) {
       console.error('Invalid token or decoding failed:', e);
       throw new Error('authentication_failed');

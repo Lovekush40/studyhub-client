@@ -20,11 +20,14 @@ export default function Login() {
     const errorParam = searchParams.get('error');
 
     if (token) {
-      try {
-        loginWithToken(token);
-      } catch (err) {
-        setError('Integration failed. Please try again.');
-      }
+      const completeLogin = async () => {
+        try {
+          await loginWithToken(token);
+        } catch (err) {
+          setError('Integration failed. Please try again.');
+        }
+      };
+      completeLogin();
     } else if (errorParam) {
       const errorMap = {
         'email_not_verified': 'Google email is not verified. Please verify your email first.',
