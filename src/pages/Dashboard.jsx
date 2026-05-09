@@ -133,7 +133,13 @@ export default function Dashboard() {
             {isAdmin ? 'Student Enrollment Trends' : 'My Performance Graph'}
           </h2>
           <div style={{ width: '100%', height: 300, minHeight: 300 }}>
-            {chartData.length > 0 ? (
+            {(!isAdmin && enrolledCourses.length === 0 && enrolledBatches.length === 0) ? (
+              <div className="flex flex-col items-center justify-center h-full text-center text-[var(--color-text-muted)]">
+                <TrendingUp className="w-12 h-12 mb-3 opacity-20" />
+                <p className="font-medium text-lg mb-1">No Performance Data</p>
+                <p className="text-sm">Enroll in a course to start tracking your performance</p>
+              </div>
+            ) : chartData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                   <defs>
