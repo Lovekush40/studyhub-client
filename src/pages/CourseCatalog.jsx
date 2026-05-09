@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BookOpen, Loader2, Check, LogIn } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { fetchAvailableCourses, enrollInCourse, unenrollFromCourse, fetchStudentEnrolledCourses } from '../api';
+import Modal from '../components/Modal';
 
 export default function CourseCatalog() {
   const { user } = useAuth();
@@ -13,6 +14,7 @@ export default function CourseCatalog() {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [enrollingId, setEnrollingId] = useState(null);
+  const [modalMessage, setModalMessage] = useState(null);
 
   const loadCourses = async () => {
     setLoading(true);
@@ -46,7 +48,7 @@ export default function CourseCatalog() {
     try {
       await enrollInCourse(courseId);
       setEnrolledCourses([...enrolledCourses, courseId]);
-      alert('Successfully enrolled in course!');
+      setModalMessage({ title: 'Enrollment Successful', message: 'You have successfully enrolled in this course! You can now access its materials.' });
     } catch (error) {
       alert(error.message || 'Failed to enroll');
     } finally {
@@ -61,7 +63,7 @@ export default function CourseCatalog() {
     try {
       await unenrollFromCourse(courseId);
       setEnrolledCourses(enrolledCourses.filter(id => id !== courseId));
-      alert('Successfully unenrolled from course');
+      setModalMessage({ title: 'Unenrollment Successful', message: 'You have successfully unenrolled from this course.' });
     } catch (error) {
       alert(error.message || 'Failed to unenroll');
     } finally {
@@ -210,6 +212,28 @@ export default function CourseCatalog() {
           )}
         </>
       )}
+
+      {/* Success Modal */}
+      <Modal 
+        isOpen={!!modalMessage} 
+        onClose={() => setModalMessage(null)} 
+        title={modalMessage?.title || 'Success'}
+      >
+        <div className="text-center py-6">
+          <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+            <Check className="h-8 w-8 text-green-600" />
+          </div>
+          <p className="text-lg text-[var(--color-text)] font-medium mb-6">
+            {modalMessage?.message}
+          </p>
+          <button
+            onClick={() => setModalMessage(null)}
+            className="w-full sm:w-auto px-8 py-2.5 bg-[var(--color-primary)] text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
+          >
+            Continue
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }
