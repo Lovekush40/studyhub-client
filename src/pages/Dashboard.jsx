@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { fetchDashboardStats } from '../api';
 import { Users, Layers, BookOpen, PenTool, CheckCircle, TrendingUp, Clock, Loader2 } from 'lucide-react';
@@ -12,6 +13,7 @@ const iconMap = {
 
 export default function Dashboard() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const isAdmin = user?.role === 'ADMIN';
 
   const [stats, setStats] = useState(null);
@@ -171,24 +173,42 @@ export default function Dashboard() {
             {isAdmin ? 'Upcoming Institute Batches' : 'My Today\'s Schedule'}
           </h2>
           <div className="flex-1 space-y-4">
-            {upcomingEvents.map((batch) => (
-              <div key={batch.id} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-[var(--color-bg)] transition-colors border border-transparent hover:border-[var(--color-border)]">
-                <div className="flex-shrink-0">
-                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-primary)]/10">
-                    <Layers className="h-4 w-4 text-[var(--color-primary)]" />
-                  </span>
+            {upcomingEvents.length > 0 ? (
+              upcomingEvents.map((batch) => (
+                <div key={batch.id} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-[var(--color-bg)] transition-colors border border-transparent hover:border-[var(--color-border)]">
+                  <div className="flex-shrink-0">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-primary)]/10">
+                      <Layers className="h-4 w-4 text-[var(--color-primary)]" />
+                    </span>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium text-[var(--color-text)]">{batch.name}</p>
+                    <p className="text-xs text-[var(--color-text-muted)] truncate">{batch.time}</p>
+                    <p className="text-xs text-[var(--color-primary)] mt-1 font-medium bg-[var(--color-primary)]/10 inline-block px-2 py-0.5 rounded-md">{batch.tags}</p>
+                  </div>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-[var(--color-text)]">{batch.name}</p>
-                  <p className="text-xs text-[var(--color-text-muted)] truncate">{batch.time}</p>
-                  <p className="text-xs text-[var(--color-primary)] mt-1 font-medium bg-[var(--color-primary)]/10 inline-block px-2 py-0.5 rounded-md">{batch.tags}</p>
-                </div>
+              ))
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full text-center py-8 text-[var(--color-text-muted)]">
+                <Clock className="w-12 h-12 mb-3 opacity-20" />
+                <p>No upcoming schedule for today</p>
+                {!isAdmin && <p className="text-sm mt-1">Enroll in a course to start learning</p>}
               </div>
-            ))}
+            )}
           </div>
-          <button className="mt-4 w-full rounded-md bg-[var(--color-primary)]/10 px-3 py-2 text-sm font-medium text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-colors">
-            {isAdmin ? 'Manage all batches' : 'Join Live Class'}
-          </button>
+          {upcomingEvents.length > 0 ? (
+            <button className="mt-4 w-full rounded-md bg-[var(--color-primary)]/10 px-3 py-2 text-sm font-medium text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-colors">
+              {isAdmin ? 'Manage all batches' : 'Join Live Class'}
+            </button>
+          ) : (
+            !isAdmin && (
+              <button 
+                onClick={() => navigate('/catalog')}
+                className="mt-4 w-full rounded-md bg-[var(--color-primary)] px-3 py-2 text-sm font-medium text-white hover:brightness-110 shadow-sm transition-all">
+                Explore Courses
+              </button>
+            )
+          )}
         </div>
       </div>
     </div>
