@@ -149,11 +149,13 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <section className="py-12 bg-gray-50 border border-[var(--color-border)] shadow-md rounded-2xl mx-4 sm:mx-6 lg:mx-auto max-w-7xl my-16 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4">
-          <AnnouncementsSection />
-        </div>
-      </section>
+      <div className="w-full px-4 sm:px-6 lg:px-8 flex justify-center my-16">
+        <section className="py-12 bg-gray-50 border border-[var(--color-border)] shadow-md rounded-2xl w-full max-w-7xl overflow-hidden">
+          <div className="w-full mx-auto px-4 sm:px-6">
+            <AnnouncementsSection />
+          </div>
+        </section>
+      </div>
 
       <ReviewsSection />
 
