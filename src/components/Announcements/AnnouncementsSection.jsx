@@ -41,7 +41,7 @@ const AnnouncementsSection = () => {
   };
 
   return (
-    <div className="bg-white rounded border border-gray-300 shadow-sm overflow-hidden flex flex-col">
+    <div className="w-full bg-white rounded border border-gray-300 shadow-sm overflow-hidden flex flex-col">
       {/* Header */}
       <div className="bg-[#1f73b7] text-white text-center py-2 font-bold text-lg uppercase tracking-wider">
         Notice Board
