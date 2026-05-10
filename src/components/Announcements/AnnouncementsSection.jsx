@@ -68,7 +68,7 @@ const AnnouncementsSection = () => {
       </div>
 
       {/* Content */}
-      <div className="p-4 flex-1">
+      <div className="p-4 flex-1 min-h-[350px]">
         {loading ? (
           <div className="text-center py-8 text-gray-500 animate-pulse">Loading notices...</div>
         ) : filteredAnnouncements.length === 0 ? (
