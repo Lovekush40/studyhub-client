@@ -78,7 +78,7 @@ export default function TestsAndResults() {
       <div className="sm:flex sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[var(--color-text)]">
-            {isAdmin ? "Assessments & Results" : "My Assessments"}
+            {isAdmin ? "Assessments" : "My Assessments"}
           </h1>
           <p className="text-sm mt-1 text-[var(--color-text-muted)]">
             {isAdmin
