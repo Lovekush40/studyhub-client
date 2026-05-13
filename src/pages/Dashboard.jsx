@@ -55,6 +55,7 @@ export default function Dashboard() {
     // Instead we can map based on the 'name' field
     const nameMap = {
       'Total Students': Users,
+      'Active Batches': Layers,
       'Total Courses': BookOpen,
       'Tests Conducted': PenTool,
       'My Attendance': CheckCircle,
@@ -69,7 +70,7 @@ export default function Dashboard() {
   const chartData = stats?.chartData || [];
   const upcomingEvents = stats?.upcomingEvents || [];
   const enrolledCourses = stats?.enrolledCourses || [];
-  
+  const enrolledBatches = stats?.enrolledBatches || [];
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
