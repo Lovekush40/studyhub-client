@@ -139,7 +139,7 @@ export default function TestsAndResults() {
                       <div className="flex items-center gap-2 mt-2">
                         <span className="flex items-center gap-1 text-xs font-medium text-[var(--color-text-muted)] mt-1">
                           <Calendar className="w-3.5 h-3.5" /> 
-                          {new Date(test.date).toLocaleString()}
+                          {new Date(test.date).toLocaleString('en-IN', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}
                         </span>
                         
                         {/* Status Badge */}
