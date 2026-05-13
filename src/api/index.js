@@ -318,20 +318,6 @@ export const deleteTest = async (id) => {
 };
 
 // ============================================
-// RESULTS API
-// ============================================
-export const fetchResultsList = async () => {
-  return request('/results');
-};
-
-export const addResult = async (resultData) => {
-  return request('/results', {
-    method: 'POST',
-    body: resultData
-  });
-};
-
-// ============================================
 // PUBLISHED RESULTS API
 // ============================================
 export const fetchPublishedResults = async () => {
