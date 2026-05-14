@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { fetchTestsList, addTest, updateTest, fetchCourses } from "../api";
+import { fetchTestsList, addTest, updateTest, deleteTest, fetchCourses } from "../api";
 import TestFormModal from "../components/TestFormModal";
 
 import {
@@ -10,7 +10,8 @@ import {
   Calendar,
   ChevronRight,
   PlayCircle,
-  Loader2
+  Loader2,
+  Trash2
 } from "lucide-react";
 
 export default function TestsAndResults() {
@@ -85,6 +86,16 @@ export default function TestsAndResults() {
       setIsTestModalOpen(false);
     } catch (err) {
       console.error("Test save failed", err);
+    }
+  };
+
+  const handleDeleteTest = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this assessment?")) return;
+    try {
+      await deleteTest(id);
+      await loadTests();
+    } catch (err) {
+      console.error("Failed to delete test", err);
     }
   };
 
@@ -200,14 +211,23 @@ export default function TestsAndResults() {
                         </button>
                       )}
 
-                      {/* Edit (Admin) */}
+                      {/* Edit and Delete (Admin) */}
                       {isAdmin && (
-                        <button
-                          onClick={() => handleOpenEditTest(test)}
-                          className="text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] text-sm font-semibold px-2 py-1"
-                        >
-                          Edit
-                        </button>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleOpenEditTest(test)}
+                            className="text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] text-sm font-semibold px-2 py-1"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteTest(test.id || test._id)}
+                            className="text-red-500 hover:text-red-700 p-1.5 hover:bg-red-50 rounded-md transition-colors"
+                            title="Delete Assessment"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       )}
 
                       <ChevronRight className="w-5 h-5 text-[var(--color-text-muted)]" />
