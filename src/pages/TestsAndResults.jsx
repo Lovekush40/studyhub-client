@@ -32,7 +32,24 @@ export default function TestsAndResults() {
     setLoading(true);
     try {
       const res = await Promise.all([fetchTestsList(), fetchCourses()]);
-      setTests(res[0]);
+      
+      // Calculate status on the frontend to avoid timezone issues
+      const testsWithStatus = res[0].map(test => {
+        const now = new Date();
+        const testStart = new Date(test.date);
+        const testEnd = new Date(testStart.getTime() + (test.duration || 0) * 60000);
+        
+        let status = 'Upcoming';
+        if (now >= testStart && now <= testEnd) {
+          status = 'Ongoing';
+        } else if (now > testEnd) {
+          status = 'Ended';
+        }
+        
+        return { ...test, status };
+      });
+
+      setTests(testsWithStatus);
       setCourses(res[1]);
     } catch (error) {
       console.error("Failed to load data", error);
