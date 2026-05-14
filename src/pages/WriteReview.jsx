@@ -40,7 +40,7 @@ const WriteReview = () => {
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+      <div className="w-full max-w-2xl bg-[var(--color-bg-alt)] rounded-2xl shadow-sm border border-[var(--color-border)] p-8">
         
         <button 
           onClick={() => navigate('/')} 
@@ -52,11 +52,11 @@ const WriteReview = () => {
 
         {success ? (
           <div className="text-center py-10 animate-in fade-in zoom-in duration-500">
-            <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Star className="w-8 h-8 fill-green-600" />
+            <div className="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Star className="w-8 h-8 fill-green-500" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Thank you!</h2>
-            <p className="text-gray-600 text-lg">
+            <h2 className="text-2xl font-bold text-[var(--color-text)] mb-2">Thank you!</h2>
+            <p className="text-[var(--color-text-muted)] text-lg">
               Your review has been successfully submitted and is pending approval.<br/>
               Redirecting...
             </p>
@@ -64,8 +64,8 @@ const WriteReview = () => {
         ) : (
           <>
             <div className="mb-8">
-              <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Share Your Experience</h1>
-              <p className="mt-2 text-lg text-gray-600">
+              <h1 className="text-3xl font-extrabold text-[var(--color-text)] tracking-tight">Share Your Experience</h1>
+              <p className="mt-2 text-lg text-[var(--color-text-muted)]">
                 Let us know how StudyHub is helping you achieve your goals.
               </p>
             </div>
@@ -77,8 +77,8 @@ const WriteReview = () => {
                 </div>
               )}
 
-              <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                <label className="block text-base font-semibold text-gray-900 mb-4 text-center">
+              <div className="bg-[var(--color-bg)] p-6 rounded-xl border border-[var(--color-border)]">
+                <label className="block text-base font-semibold text-[var(--color-text)] mb-4 text-center">
                   How would you rate us?
                 </label>
                 <div className="flex space-x-3 justify-center">
@@ -95,7 +95,7 @@ const WriteReview = () => {
                         className={`w-10 h-10 transition-colors ${
                           star <= (hoverRating || rating) 
                             ? 'text-yellow-400 fill-yellow-400' 
-                            : 'text-gray-300'
+                            : 'text-[var(--color-border)] text-gray-300 dark:text-gray-600'
                         }`} 
                       />
                     </button>
@@ -104,14 +104,14 @@ const WriteReview = () => {
               </div>
 
               <div>
-                <label htmlFor="comment" className="block text-base font-semibold text-gray-900 mb-2">
+                <label htmlFor="comment" className="block text-base font-semibold text-[var(--color-text)] mb-2">
                   Detailed Review
                 </label>
-                <p className="text-sm text-gray-500 mb-4">Tell us what you liked the most and where we can improve.</p>
+                <p className="text-sm text-[var(--color-text-muted)] mb-4">Tell us what you liked the most and where we can improve.</p>
                 <textarea
                   id="comment"
                   rows="6"
-                  className="block w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base p-4 border transition-colors resize-none"
+                  className="block w-full rounded-xl border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] shadow-sm focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)] text-base p-4 border transition-colors resize-none"
                   placeholder="Share details of your experience..."
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}

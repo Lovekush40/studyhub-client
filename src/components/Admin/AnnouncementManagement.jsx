@@ -98,38 +98,38 @@ const AnnouncementManagement = () => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-      <div className="p-6 border-b border-gray-200">
-        <h2 className="text-xl font-bold text-gray-900">Manage Announcements</h2>
-        <p className="text-sm text-gray-500 mt-1">Create and manage global alerts and updates.</p>
+    <div className="bg-[var(--color-bg-alt)] rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden">
+      <div className="p-6 border-b border-[var(--color-border)]">
+        <h2 className="text-xl font-bold text-[var(--color-text)]">Manage Announcements</h2>
+        <p className="text-sm text-[var(--color-text-muted)] mt-1">Create and manage global alerts and updates.</p>
       </div>
 
       {/* Form Section */}
-      <div className="p-6 bg-gray-50 border-b border-gray-200">
-        <h3 className="text-lg font-semibold mb-4 text-gray-800">
+      <div className="p-6 bg-[var(--color-bg)] border-b border-[var(--color-border)]">
+        <h3 className="text-lg font-semibold mb-4 text-[var(--color-text)]">
           {isEditing ? 'Edit Announcement' : 'Create New Announcement'}
         </h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+              <label className="block text-sm font-medium text-[var(--color-text-muted)] mb-1">Title</label>
               <input
                 type="text"
                 name="title"
                 required
                 value={formData.title}
                 onChange={handleInputChange}
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+                className="w-full rounded-md border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] shadow-sm focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)] p-2 border"
                 placeholder="E.g., System Maintenance"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+              <label className="block text-sm font-medium text-[var(--color-text-muted)] mb-1">Priority</label>
               <select
                 name="priority"
                 value={formData.priority}
                 onChange={handleInputChange}
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border bg-white"
+                className="w-full rounded-md border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] shadow-sm focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)] p-2 border"
               >
                 <option value="low">Low (Blue)</option>
                 <option value="medium">Medium (Yellow)</option>
@@ -137,12 +137,12 @@ const AnnouncementManagement = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+              <label className="block text-sm font-medium text-[var(--color-text-muted)] mb-1">Category</label>
               <select
                 name="category"
                 value={formData.category}
                 onChange={handleInputChange}
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border bg-white"
+                className="w-full rounded-md border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] shadow-sm focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)] p-2 border"
               >
                 <option value="General">General</option>
                 <option value="Examination">Examination</option>
@@ -150,36 +150,36 @@ const AnnouncementManagement = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Page Link (Optional)</label>
+              <label className="block text-sm font-medium text-[var(--color-text-muted)] mb-1">Page Link (Optional)</label>
               <input
                 type="url"
                 name="link"
                 value={formData.link}
                 onChange={handleInputChange}
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+                className="w-full rounded-md border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] shadow-sm focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)] p-2 border"
                 placeholder="https://example.com/notice"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Event Date (Optional)</label>
+              <label className="block text-sm font-medium text-[var(--color-text-muted)] mb-1">Event Date (Optional)</label>
               <input
                 type="date"
                 name="eventDate"
                 value={formData.eventDate}
                 onChange={handleInputChange}
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+                className="w-full rounded-md border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] shadow-sm focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)] p-2 border"
               />
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
+            <label className="block text-sm font-medium text-[var(--color-text-muted)] mb-1">Content</label>
             <textarea
               name="content"
               required
               rows="3"
               value={formData.content}
               onChange={handleInputChange}
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border resize-none"
+              className="w-full rounded-md border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] shadow-sm focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)] p-2 border resize-none"
               placeholder="Enter announcement details..."
             />
           </div>
@@ -190,9 +190,9 @@ const AnnouncementManagement = () => {
               name="active"
               checked={formData.active}
               onChange={handleInputChange}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="h-4 w-4 text-[var(--color-primary)] focus:ring-[var(--color-primary)] border-[var(--color-border)] rounded bg-[var(--color-bg)]"
             />
-            <label htmlFor="activeCheckbox" className="ml-2 block text-sm text-gray-900">
+            <label htmlFor="activeCheckbox" className="ml-2 block text-sm text-[var(--color-text)]">
               Active (Visible to users)
             </label>
           </div>
@@ -201,7 +201,7 @@ const AnnouncementManagement = () => {
               <button
                 type="button"
                 onClick={handleCancel}
-                className="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+                className="px-4 py-2 border border-[var(--color-border)] shadow-sm text-sm font-medium rounded-md text-[var(--color-text)] bg-[var(--color-bg)] hover:bg-[var(--color-bg-alt)] focus:outline-none"
               >
                 Cancel
               </button>
@@ -209,7 +209,7 @@ const AnnouncementManagement = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]"
             >
               {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : (isEditing ? <Check className="w-4 h-4 mr-2"/> : <Plus className="w-4 h-4 mr-2"/>)}
               {isEditing ? 'Update Announcement' : 'Publish Announcement'}
@@ -221,30 +221,30 @@ const AnnouncementManagement = () => {
       {/* List Section */}
       <div className="overflow-x-auto">
         {loading ? (
-          <div className="p-8 text-center text-gray-500 animate-pulse">Loading announcements...</div>
+          <div className="p-8 text-center text-[var(--color-text-muted)] animate-pulse">Loading announcements...</div>
         ) : (
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-[var(--color-border)]">
+            <thead className="bg-[var(--color-bg-alt)]">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Title & Details</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Priority</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Title & Details</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[var(--color-text-muted)] uppercase">Priority</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-[var(--color-text-muted)] uppercase">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-[var(--color-bg-alt)] divide-y divide-[var(--color-border)]">
               {announcements.length === 0 ? (
                 <tr>
-                  <td colSpan="3" className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan="3" className="px-6 py-12 text-center text-[var(--color-text-muted)]">
                     No active announcements found.
                   </td>
                 </tr>
               ) : (
                 announcements.map((item) => (
-                  <tr key={item._id || item.id} className="hover:bg-gray-50">
+                  <tr key={item._id || item.id} className="hover:bg-[var(--color-bg)] transition-colors">
                     <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-gray-900">{item.title}</div>
-                      <div className="text-sm text-gray-500 mt-1 max-w-xl truncate">{item.content}</div>
-                      <div className="text-xs text-gray-400 mt-1">
+                      <div className="text-sm font-medium text-[var(--color-text)]">{item.title}</div>
+                      <div className="text-sm text-[var(--color-text-muted)] mt-1 max-w-xl truncate">{item.content}</div>
+                      <div className="text-xs text-[var(--color-text-muted)] opacity-70 mt-1">
                         Posted: {new Date(item.createdAt || Date.now()).toLocaleString()}
                         {item.eventDate && ` • Event: ${new Date(item.eventDate).toLocaleDateString()}`}
                       </div>
@@ -252,17 +252,17 @@ const AnnouncementManagement = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex flex-col gap-1">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize w-max
-                          ${item.priority === 'high' ? 'bg-red-100 text-red-800' : 
-                            item.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' : 
-                            'bg-blue-100 text-blue-800'}`}
+                          ${item.priority === 'high' ? 'bg-red-500/10 text-red-500' : 
+                            item.priority === 'medium' ? 'bg-yellow-500/10 text-yellow-500' : 
+                            'bg-blue-500/10 text-blue-500'}`}
                         >
                           {item.priority}
                         </span>
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 w-max">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[var(--color-bg)] border border-[var(--color-border)] text-[var(--color-text)] w-max">
                           {item.category || 'General'}
                         </span>
                         {item.link && (
-                          <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:underline">
+                          <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-xs text-[var(--color-primary)] hover:underline">
                             View Link
                           </a>
                         )}
