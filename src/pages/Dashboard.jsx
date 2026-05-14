@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { fetchDashboardStats } from '../api';
 import { Users, Layers, BookOpen, PenTool, CheckCircle, TrendingUp, Clock, Loader2 } from 'lucide-react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 // Map icon strings to actual Lucide components dynamically if needed, 
 // but for now we'll just handle it statically or via mapping.
@@ -100,9 +99,18 @@ export default function Dashboard() {
               <h3 className="text-lg font-semibold mb-3">My Courses</h3>
               <ul className="space-y-2">
                 {enrolledCourses.map((course) => (
-                  <li key={course.id || course._id} className="rounded-lg p-3 border border-[var(--color-border)] bg-[var(--color-bg)]">
-                    <p className="font-medium">{course.name}</p>
-                    {course.description && <p className="text-xs text-[var(--color-text-muted)]">{course.description}</p>}
+                  <li 
+                    key={course.id || course._id} 
+                    onClick={() => navigate(`/course/${course.id || course._id}`)}
+                    className="rounded-lg p-3 border border-[var(--color-border)] bg-[var(--color-bg)] hover:bg-[var(--color-primary)]/5 cursor-pointer transition-all hover:shadow-sm group flex items-center gap-3"
+                  >
+                    <div className="p-2 bg-[var(--color-primary)]/10 rounded-md text-[var(--color-primary)]">
+                      <BookOpen className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="font-medium group-hover:text-[var(--color-primary)] transition-colors">{course.name}</p>
+                      {course.description && <p className="text-xs text-[var(--color-text-muted)] line-clamp-1">{course.description}</p>}
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -114,10 +122,19 @@ export default function Dashboard() {
               <h3 className="text-lg font-semibold mb-3">My Batches</h3>
               <ul className="space-y-2">
                 {enrolledBatches.map((batch) => (
-                  <li key={batch.id || batch._id} className="rounded-lg p-3 border border-[var(--color-border)] bg-[var(--color-bg)]">
-                    <p className="font-medium">{batch.name}</p>
-                    {batch.course && <p className="text-xs text-[var(--color-text-muted)]">Course: {batch.course}</p>}
-                    {batch.start_date && <p className="text-xs text-[var(--color-text-muted)]">Start: {new Date(batch.start_date).toLocaleDateString()}</p>}
+                  <li key={batch.id || batch._id} className="rounded-lg p-3 border border-[var(--color-border)] bg-[var(--color-bg)] hover:bg-[var(--color-primary)]/5 transition-all flex items-center gap-3">
+                    <div className="p-2 bg-[var(--color-primary)]/10 rounded-md text-[var(--color-primary)]">
+                      <Layers className="w-5 h-5" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium">{batch.name}</p>
+                      {batch.course && <p className="text-xs text-[var(--color-text-muted)]">Course: {batch.course}</p>}
+                    </div>
+                    {batch.start_date && (
+                      <div className="text-xs text-[var(--color-text-muted)] bg-[var(--color-bg-alt)] px-2 py-1 rounded-md border border-[var(--color-border)]">
+                        {new Date(batch.start_date).toLocaleDateString()}
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -126,55 +143,9 @@ export default function Dashboard() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        {/* Chart Section */}
-        <div className="lg:col-span-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)] p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-[var(--color-text)] mb-4">
-            {isAdmin ? 'Student Enrollment Trends' : 'My Performance Graph'}
-          </h2>
-          <div style={{ width: '100%', height: 300, minHeight: 300 }}>
-            {(!isAdmin && enrolledCourses.length === 0 && enrolledBatches.length === 0) ? (
-              <div className="flex flex-col items-center justify-center h-full text-center text-[var(--color-text-muted)]">
-                <TrendingUp className="w-12 h-12 mb-3 opacity-20" />
-                <p className="font-medium text-lg mb-1">No Performance Data</p>
-                <p className="text-sm">Enroll in a course to start tracking your performance</p>
-              </div>
-            ) : chartData.length > 0 ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorPrimary" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="var(--color-primary)" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="var(--color-primary)" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <XAxis dataKey="name" stroke="var(--color-text-muted)" />
-                  <YAxis stroke="var(--color-text-muted)" />
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: 'var(--color-bg-alt)', borderColor: 'var(--color-border)', borderRadius: '8px' }}
-                    itemStyle={{ color: 'var(--color-text)' }}
-                  />
-                  {isAdmin ? (
-                    <Area type="monotone" dataKey="students" stroke="var(--color-primary)" fillOpacity={1} fill="url(#colorPrimary)" />
-                  ) : (
-                    <>
-                      <Area type="monotone" dataKey="score" stroke="var(--color-primary)" fillOpacity={1} fill="url(#colorPrimary)" name="My Score" />
-                      <Area type="monotone" dataKey="avg" stroke="#9ca3af" fillOpacity={0.2} fill="#9ca3af" name="Class Average" strokeDasharray="4 4" />
-                    </>
-                  )}
-                </AreaChart>
-              </ResponsiveContainer>
-            ) : (
-              <div className="flex items-center justify-center h-full text-[var(--color-text-muted)]">
-                No data available
-              </div>
-            )}
-          </div>
-        </div>
-
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Activity Widget */}
-        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)] p-6 shadow-sm flex flex-col">
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)] p-6 shadow-sm flex flex-col lg:col-span-2">
           <h2 className="text-lg font-semibold text-[var(--color-text)] mb-4">
             {isAdmin ? 'Upcoming Institute Batches' : 'My Today\'s Schedule'}
           </h2>
@@ -203,8 +174,11 @@ export default function Dashboard() {
             )}
           </div>
           {upcomingEvents.length > 0 ? (
-            <button className="mt-4 w-full rounded-md bg-[var(--color-primary)]/10 px-3 py-2 text-sm font-medium text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-colors">
-              {isAdmin ? 'Manage all batches' : 'Join Live Class'}
+            <button 
+              onClick={() => navigate(isAdmin ? '/courses' : '/tests')}
+              className="mt-4 w-full rounded-md bg-[var(--color-primary)]/10 px-3 py-2 text-sm font-medium text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-colors"
+            >
+              {isAdmin ? 'Manage all batches' : 'View Assessments'}
             </button>
           ) : (
             !isAdmin && (
