@@ -69,11 +69,10 @@ export default function Dashboard() {
   const chartData = stats?.chartData || [];
   const upcomingEvents = stats?.upcomingEvents || [];
   const enrolledCourses = stats?.enrolledCourses || [];
-  const enrolledBatches = stats?.enrolledBatches || [];
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-3">
         {kpis.map((stat) => {
           const IconComp = getIcon(stat.name);
           return (
@@ -92,62 +91,34 @@ export default function Dashboard() {
         })}
       </div>
 
-      {(enrolledCourses.length > 0 || enrolledBatches.length > 0) && (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          {enrolledCourses.length > 0 && (
-            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)] p-6 shadow-sm">
-              <h3 className="text-lg font-semibold mb-3">My Courses</h3>
-              <ul className="space-y-2">
-                {enrolledCourses.map((course) => (
-                  <li 
-                    key={course.id || course._id} 
-                    onClick={() => navigate(`/course/${course.id || course._id}`)}
-                    className="rounded-lg p-3 border border-[var(--color-border)] bg-[var(--color-bg)] hover:bg-[var(--color-primary)]/5 cursor-pointer transition-all hover:shadow-sm group flex items-center gap-3"
-                  >
-                    <div className="p-2 bg-[var(--color-primary)]/10 rounded-md text-[var(--color-primary)]">
-                      <BookOpen className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="font-medium group-hover:text-[var(--color-primary)] transition-colors">{course.name}</p>
-                      {course.description && <p className="text-xs text-[var(--color-text-muted)] line-clamp-1">{course.description}</p>}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {enrolledBatches.length > 0 && (
-            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)] p-6 shadow-sm">
-              <h3 className="text-lg font-semibold mb-3">My Batches</h3>
-              <ul className="space-y-2">
-                {enrolledBatches.map((batch) => (
-                  <li key={batch.id || batch._id} className="rounded-lg p-3 border border-[var(--color-border)] bg-[var(--color-bg)] hover:bg-[var(--color-primary)]/5 transition-all flex items-center gap-3">
-                    <div className="p-2 bg-[var(--color-primary)]/10 rounded-md text-[var(--color-primary)]">
-                      <Layers className="w-5 h-5" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium">{batch.name}</p>
-                      {batch.course && <p className="text-xs text-[var(--color-text-muted)]">Course: {batch.course}</p>}
-                    </div>
-                    {batch.start_date && (
-                      <div className="text-xs text-[var(--color-text-muted)] bg-[var(--color-bg-alt)] px-2 py-1 rounded-md border border-[var(--color-border)]">
-                        {new Date(batch.start_date).toLocaleDateString()}
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      )}
-
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {enrolledCourses.length > 0 && (
+          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)] p-6 shadow-sm flex flex-col">
+            <h3 className="text-lg font-semibold mb-3">My Courses</h3>
+            <ul className="space-y-2 flex-1 overflow-y-auto max-h-[400px] pr-2">
+              {enrolledCourses.map((course) => (
+                <li 
+                  key={course.id || course._id} 
+                  onClick={() => navigate(`/course/${course.id || course._id}`)}
+                  className="rounded-lg p-3 border border-[var(--color-border)] bg-[var(--color-bg)] hover:bg-[var(--color-primary)]/5 cursor-pointer transition-all hover:shadow-sm group flex items-center gap-3"
+                >
+                  <div className="p-2 bg-[var(--color-primary)]/10 rounded-md text-[var(--color-primary)]">
+                    <BookOpen className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="font-medium group-hover:text-[var(--color-primary)] transition-colors">{course.name}</p>
+                    {course.description && <p className="text-xs text-[var(--color-text-muted)] line-clamp-1">{course.description}</p>}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {/* Activity Widget */}
-        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)] p-6 shadow-sm flex flex-col lg:col-span-2">
+        <div className={`rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)] p-6 shadow-sm flex flex-col ${enrolledCourses.length > 0 ? '' : 'lg:col-span-2'}`}>
           <h2 className="text-lg font-semibold text-[var(--color-text)] mb-4">
-            {isAdmin ? 'Upcoming Institute Batches' : 'My Today\'s Schedule'}
+            {isAdmin ? 'Upcoming Assessments' : 'My Upcoming Assessments'}
           </h2>
           <div className="flex-1 space-y-4">
             {upcomingEvents.length > 0 ? (
@@ -175,10 +146,10 @@ export default function Dashboard() {
           </div>
           {upcomingEvents.length > 0 ? (
             <button 
-              onClick={() => navigate(isAdmin ? '/courses' : '/tests')}
+              onClick={() => navigate(isAdmin ? '/tests' : '/tests')}
               className="mt-4 w-full rounded-md bg-[var(--color-primary)]/10 px-3 py-2 text-sm font-medium text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-colors"
             >
-              {isAdmin ? 'Manage all batches' : 'View Assessments'}
+              {isAdmin ? 'Manage all assessments' : 'View Assessments'}
             </button>
           ) : (
             !isAdmin && (
