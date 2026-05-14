@@ -150,7 +150,7 @@ export default function LandingPage() {
         </div>
       </section>
       <div className="w-full px-4 sm:px-6 lg:px-8 flex justify-center my-16">
-        <section className="py-12 bg-gray-50 border border-[var(--color-border)] shadow-md rounded-2xl w-full max-w-7xl overflow-hidden">
+        <section className="py-12 bg-[var(--color-bg)] border border-[var(--color-border)] shadow-md rounded-2xl w-full max-w-7xl overflow-hidden">
           <div className="w-full mx-auto px-4 sm:px-6">
             <AnnouncementsSection />
           </div>
@@ -159,8 +159,8 @@ export default function LandingPage() {
 
       <ReviewsSection />
 
-      <section className="py-16 text-center bg-white border-t border-gray-100">
-        <h2 className="text-3xl font-bold mb-4 text-gray-900">Share Your Experience</h2>
+      <section className="py-16 text-center bg-[var(--color-bg-alt)] border-t border-[var(--color-border)]">
+        <h2 className="text-3xl font-bold mb-4 text-[var(--color-text)]">Share Your Experience</h2>
         <Link
           to="/write-review"
           className="inline-block bg-[var(--color-primary)] text-white px-8 py-3 rounded-xl font-bold hover:brightness-110 transition-all shadow-md mt-4"

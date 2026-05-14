@@ -26,17 +26,17 @@ const StickyAnnouncementBar = () => {
 
   return (
     <div className={`relative z-40 transition-all duration-500 ease-in-out`}>
-      <div className={`flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b ${announcement.priority === 'high' ? 'bg-red-50 border-red-200 text-red-800' : announcement.priority === 'medium' ? 'bg-yellow-50 border-yellow-200 text-yellow-800' : 'bg-blue-50 border-blue-200 text-blue-800'}`}>
+      <div className={`flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b ${announcement.priority === 'high' ? 'bg-red-500/10 border-red-500/20 text-red-700 dark:text-red-400' : announcement.priority === 'medium' ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-700 dark:text-yellow-400' : 'bg-[var(--color-primary)]/10 border-[var(--color-primary)]/20 text-[var(--color-primary)]'}`}>
         <div className="flex items-center space-x-3 max-w-7xl mx-auto w-full relative">
-          <AlertCircle className={`w-5 h-5 shrink-0 ${announcement.priority === 'high' ? 'text-red-500' : announcement.priority === 'medium' ? 'text-yellow-500' : 'text-blue-500'}`} />
+          <AlertCircle className={`w-5 h-5 shrink-0 ${announcement.priority === 'high' ? 'text-red-500' : announcement.priority === 'medium' ? 'text-yellow-500' : 'text-[var(--color-primary)]'}`} />
           <span className="font-medium text-sm sm:text-base flex-1">
-            <strong className={`mr-2 uppercase tracking-wide text-xs bg-white/60 px-2 py-0.5 rounded border ${announcement.priority === 'high' ? 'border-red-200' : announcement.priority === 'medium' ? 'border-yellow-200' : 'border-blue-200'}`}>{announcement.priority}</strong>
+            <strong className={`mr-2 uppercase tracking-wide text-xs bg-[var(--color-bg)]/80 backdrop-blur-sm px-2 py-0.5 rounded border ${announcement.priority === 'high' ? 'border-red-500/20' : announcement.priority === 'medium' ? 'border-yellow-500/20' : 'border-[var(--color-primary)]/20'}`}>{announcement.priority}</strong>
             <strong className="mr-2">{announcement.title}:</strong>
             {announcement.content}
           </span>
           <button
             onClick={() => setIsVisible(false)}
-            className={`p-1.5 rounded-full transition-colors shrink-0 ${announcement.priority === 'high' ? 'hover:bg-red-100 text-red-500' : announcement.priority === 'medium' ? 'hover:bg-yellow-100 text-yellow-500' : 'hover:bg-blue-100 text-blue-500'}`}
+            className={`p-1.5 rounded-full transition-colors shrink-0 ${announcement.priority === 'high' ? 'hover:bg-red-500/20 text-red-500' : announcement.priority === 'medium' ? 'hover:bg-yellow-500/20 text-yellow-500' : 'hover:bg-[var(--color-primary)]/20 text-[var(--color-primary)]'}`}
             aria-label="Dismiss announcement"
           >
             <X className="w-5 h-5" />
