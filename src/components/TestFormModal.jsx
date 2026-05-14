@@ -24,9 +24,16 @@ export default function TestFormModal({
 
   useEffect(() => {
     if (testData) {
+      let formattedDate = "";
+      if (testData.date) {
+        const d = new Date(testData.date);
+        // Format to YYYY-MM-DDTHH:mm for datetime-local input
+        formattedDate = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+      }
       setFormData({
         ...testData,
-        course_id: testData.course_id || "" // ✅ important fix
+        course_id: testData.course_id || "", // ✅ important fix
+        date: formattedDate
       });
     } else {
       setFormData({
@@ -67,7 +74,13 @@ export default function TestFormModal({
     }
 
     setLoading(true);
-    await onSubmit(formData);
+    
+    const submitData = { ...formData };
+    if (submitData.date) {
+      submitData.date = new Date(submitData.date).toISOString();
+    }
+    
+    await onSubmit(submitData);
     setLoading(false);
   };
 
