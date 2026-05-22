@@ -60,7 +60,7 @@ export default function BatchAllocationModal({ isOpen, onClose, studentId, onUpd
     const batchToAdd = batches.find(b => (b._id || b.id) === selectedBatchId);
     if (!batchToAdd) return;
 
-    // Check if already in the list
+    
     if (allocatedBatches.some(b => b.id === selectedBatchId)) {
       setError('This batch is already added to the allocation list');
       return;
@@ -126,7 +126,7 @@ export default function BatchAllocationModal({ isOpen, onClose, studentId, onUpd
           </div>
         ) : (
           <>
-            {/* Student ID Info */}
+            
             <div className="p-3 bg-[var(--color-bg-alt)] border border-[var(--color-border)] rounded-md flex items-center justify-between">
               <div>
                 <p className="text-xs text-[var(--color-text-muted)] font-semibold uppercase tracking-wider">Managing Enrollment For</p>
@@ -138,7 +138,7 @@ export default function BatchAllocationModal({ isOpen, onClose, studentId, onUpd
               </div>
             </div>
 
-            {/* Error Message */}
+            
             {error && (
               <div className="p-3 bg-red-50 border border-red-200 rounded-md flex items-start gap-2 text-red-700 font-medium">
                 <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -146,7 +146,7 @@ export default function BatchAllocationModal({ isOpen, onClose, studentId, onUpd
               </div>
             )}
 
-            {/* Success Message */}
+            
             {success && (
               <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-md flex items-start gap-2 text-emerald-700 font-medium">
                 <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -154,7 +154,7 @@ export default function BatchAllocationModal({ isOpen, onClose, studentId, onUpd
               </div>
             )}
 
-            {/* Select New Batch */}
+            
             {!success && (
               <div className="space-y-3">
                 <h4 className="text-sm font-semibold text-[var(--color-text)]">Link New Batch</h4>
@@ -206,7 +206,7 @@ export default function BatchAllocationModal({ isOpen, onClose, studentId, onUpd
               </div>
             )}
 
-            {/* Allocated Batches List */}
+            
             <div className="space-y-3">
               <h4 className="text-sm font-semibold text-[var(--color-text)] flex justify-between">
                 <span>Current Enrollments</span>
@@ -240,7 +240,7 @@ export default function BatchAllocationModal({ isOpen, onClose, studentId, onUpd
               )}
             </div>
 
-            {/* Actions */}
+            
             {!success && (
               <div className="pt-4 flex justify-end gap-3 border-t border-[var(--color-border)]">
                 <button

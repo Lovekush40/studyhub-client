@@ -21,20 +21,20 @@ export default function TestsAndResults() {
   const [tests, setTests] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  //  Modal state
+  
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [editingTest, setEditingTest] = useState(null);
 
-  // Data State
+  
   const [courses, setCourses] = useState([]);
 
-  //  Load Initial Data
+  
   const loadTests = async () => {
     setLoading(true);
     try {
       const res = await Promise.all([fetchTestsList(), fetchCourses()]);
       
-      // Calculate status on the frontend to avoid timezone issues
+      
       const testsWithStatus = res[0].map(test => {
         const now = new Date();
         const testStart = new Date(test.date);
@@ -63,7 +63,7 @@ export default function TestsAndResults() {
     loadTests();
   }, []);
 
-  // Handlers
+  
   const handleOpenAddTest = () => {
     setEditingTest(null);
     setIsTestModalOpen(true);
@@ -102,7 +102,7 @@ export default function TestsAndResults() {
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
 
-      {/* Header */}
+      
       <div className="sm:flex sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[var(--color-text)]">
@@ -130,14 +130,14 @@ export default function TestsAndResults() {
         )}
       </div>
 
-      {/* Loading */}
+      
       {loading ? (
         <div className="flex justify-center py-20">
           <Loader2 className="w-8 h-8 animate-spin text-[var(--color-primary)]" />
         </div>
       ) : (
         <>
-          {/* TESTS TAB */}
+          
           <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)]">
             {tests.length === 0 ? (
                <p className="text-center py-10 text-[var(--color-text-muted)]">
@@ -151,7 +151,7 @@ export default function TestsAndResults() {
                     key={test.id}
                     className="flex justify-between items-center p-5 hover:bg-[var(--color-bg)] transition-colors"
                   >
-                    {/* Left */}
+                    
                     <div>
                       <p className="font-semibold text-[var(--color-text)]">
                         {test.test_name}
@@ -170,7 +170,7 @@ export default function TestsAndResults() {
                           {new Date(test.date).toLocaleString('en-IN', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}
                         </span>
                         
-                        {/* Status Badge */}
+                        
                         {test.status === 'Ongoing' ? (
                           <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700 border border-emerald-200 ml-2">
                              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -188,10 +188,10 @@ export default function TestsAndResults() {
                       </div>
                     </div>
 
-                    {/* Right */}
+                    
                     <div className="flex items-center gap-4">
 
-                      {/* Start Button (Student) */}
+                      
                       {!isAdmin && (
                         <button
                           onClick={() => {
@@ -211,7 +211,7 @@ export default function TestsAndResults() {
                         </button>
                       )}
 
-                      {/* Edit and Delete (Admin) */}
+                      
                       {isAdmin && (
                         <div className="flex items-center gap-2">
                           <button
@@ -241,7 +241,7 @@ export default function TestsAndResults() {
         </>
       )}
 
-      {/* Modals */}
+      
       {isAdmin && (
         <>
         <TestFormModal

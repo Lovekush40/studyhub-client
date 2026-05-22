@@ -18,7 +18,7 @@
   import AnnouncementManagement from './components/Admin/AnnouncementManagement';
   import './App.css';
 
-  // Placeholder components for unimplemented paths
+  
   const PlaceholderPage = ({ title }) => (
     <div className="flex flex-col items-center justify-center h-[60vh] text-center px-4 animate-in fade-in duration-500">
       <div className="h-24 w-24 rounded-full bg-gradient-to-tr from-[var(--color-primary)]/20 to-blue-500/20 flex items-center justify-center mb-6">
@@ -38,30 +38,30 @@
         <AuthProvider>
           <Router>
             <Routes>
-              {/* Full Screen Auth Routes */}
+              
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Navigate to="/login" replace />} />
 
-              {/* Layout Wraps Everything Else */}
+              
               <Route element={<MainLayout />}>
-                {/* Always show LandingPage at Root */}
+                
                 <Route path="/" element={<LandingPage />} />
                 
-                {/* Features and Pricing placeholder pages, accessible publicly */}
+                
                 <Route path="/features" element={<PlaceholderPage title="Features Showcase" />} />
                 <Route path="/pricing" element={<PlaceholderPage title="Pricing Tiers" />} />
 
-                {/* Secure Routes */}
+                
                 <Route element={<ProtectedRoute />}>
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/dashboard" element={<Dashboard />} />
                   
-                  {/* Admin Only Routes */}
+                  
 
                   <Route path="/moderate-reviews" element={<ProtectedRoute allowedRoles={['ADMIN']}><div className="p-6"><ReviewModeration /></div></ProtectedRoute>} />
                   <Route path="/manage-announcements" element={<ProtectedRoute allowedRoles={['ADMIN']}><div className="p-6"><AnnouncementManagement /></div></ProtectedRoute>} />
 
-                  {/* Shared Accessible Routes */}
+                  
                   <Route path="/reports" element={<PublishedResults />} />
                   <Route path="/courses" element={<CoursesAndBatches />} />
                   <Route path="/catalog" element={<CourseCatalog />} />

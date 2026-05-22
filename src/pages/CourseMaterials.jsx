@@ -72,7 +72,7 @@ export default function CourseMaterials() {
         };
       }
 
-      // Distribute materials into groups
+      
       data.forEach(item => {
         const subjectName = item.subject_name || item.subject_id || (courseSubjects[0] || "General");
         const type = item.type || "videos";
@@ -104,7 +104,7 @@ export default function CourseMaterials() {
     }
   }, [id]);
 
-  // 🎥 YouTube embed
+  
   const getEmbedUrl = (url) => {
     if (!url) return "";
     const match = url.match(/(?:v=|youtu\.be\/)([^&]+)/);
@@ -136,7 +136,7 @@ export default function CourseMaterials() {
     }
   };
 
-  // ❌ Delete
+  
   const handleDelete = async (materialId) => {
     if (!window.confirm("Are you sure you want to delete this material?")) return;
     
@@ -148,15 +148,15 @@ export default function CourseMaterials() {
     }
   };
 
-  // ✏️ Edit
+  
   const handleEdit = (item) => {
-    // map backend file_url to local url for the form
+    
     setEditingMaterial({ ...item, type: item.type || "videos", url: item.file_url });
     setSelectedSubject(item.subject_name || item.subject_id || activeSubject);
     setIsModalOpen(true);
   };
 
-  // ➕ Open Add
+  
   const handleAdd = () => {
     setEditingMaterial(null);
     setSelectedSubject(activeSubject);
@@ -168,7 +168,7 @@ export default function CourseMaterials() {
   return (
     <div className="space-y-6">
 
-      {/* Header */}
+      
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
           <button onClick={() => navigate(-1)}>
@@ -191,7 +191,7 @@ export default function CourseMaterials() {
         )}
       </div>
 
-      {/* Subject Tabs */}
+      
       {subjects.length > 0 && (
         <div className="flex gap-2 border-b overflow-x-auto">
           {subjects.map((subject) => (
@@ -199,7 +199,7 @@ export default function CourseMaterials() {
               key={subject} 
               onClick={() => {
                 setActiveSubject(subject);
-                setActiveMaterialType(null); // Reset category view when subject changes
+                setActiveMaterialType(null); 
               }}
               className={`py-3 px-4 whitespace-nowrap flex items-center gap-2 border-b-2 transition-colors ${
                 activeSubject === subject 
@@ -214,7 +214,7 @@ export default function CourseMaterials() {
         </div>
       )}
 
-      {/* Data states */}
+      
       {loading ? (
         <div className="flex justify-center py-20">
           <Loader2 className="w-8 h-8 animate-spin text-[var(--color-primary)]" />
@@ -222,9 +222,9 @@ export default function CourseMaterials() {
       ) : (
         <div className="space-y-6">
           {activeMaterialType === null ? (
-            // The Three Boxes View
+            
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-              {/* Videos Box */}
+              
               <button 
                 onClick={() => setActiveMaterialType('videos')}
                 className="flex flex-col items-center justify-center p-8 bg-white border border-gray-200 rounded-2xl hover:shadow-xl hover:border-blue-400 hover:-translate-y-1 transition-all group"
@@ -238,7 +238,7 @@ export default function CourseMaterials() {
                 </p>
               </button>
 
-              {/* Assignments Box */}
+              
               <button 
                 onClick={() => setActiveMaterialType('assignments')}
                 className="flex flex-col items-center justify-center p-8 bg-white border border-gray-200 rounded-2xl hover:shadow-xl hover:border-green-400 hover:-translate-y-1 transition-all group"
@@ -252,7 +252,7 @@ export default function CourseMaterials() {
                 </p>
               </button>
 
-              {/* Notes Box */}
+              
               <button 
                 onClick={() => setActiveMaterialType('notes')}
                 className="flex flex-col items-center justify-center p-8 bg-white border border-gray-200 rounded-2xl hover:shadow-xl hover:border-amber-400 hover:-translate-y-1 transition-all group"
@@ -267,7 +267,7 @@ export default function CourseMaterials() {
               </button>
             </div>
           ) : (
-            // Detailed View for a Selected Category
+            
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
               <button 
                 onClick={() => setActiveMaterialType(null)}
@@ -276,7 +276,7 @@ export default function CourseMaterials() {
                 <ChevronLeft className="w-4 h-4" /> Back to Categories
               </button>
 
-              {/* VIDEOS Section */}
+              
               {activeMaterialType === 'videos' && currentSubjectMaterials.videos.length > 0 && (
                 <div>
                   <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
@@ -315,7 +315,7 @@ export default function CourseMaterials() {
                 </div>
               )}
 
-              {/* ASSIGNMENTS Section */}
+              
               {activeMaterialType === 'assignments' && currentSubjectMaterials.assignments.length > 0 && (
                 <div>
                   <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
@@ -351,7 +351,7 @@ export default function CourseMaterials() {
                 </div>
               )}
 
-              {/* NOTES Section */}
+              
               {activeMaterialType === 'notes' && currentSubjectMaterials.notes.length > 0 && (
                 <div>
                   <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
@@ -387,7 +387,7 @@ export default function CourseMaterials() {
                 </div>
               )}
 
-              {/* Empty State for the Selected Category */}
+              
               {currentSubjectMaterials[activeMaterialType].length === 0 && (
                 <div className="text-center py-20 px-4 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
                   <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-gray-100">
@@ -404,7 +404,7 @@ export default function CourseMaterials() {
         </div>
       )}
 
-      {/* Modal */}
+      
       {isAdmin && (
         <MaterialFormModal
           isOpen={isModalOpen}

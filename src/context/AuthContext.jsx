@@ -8,7 +8,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check local storage for mock session on mount
+    
     const storedUser = localStorage.getItem('studyhub_user');
     if (storedUser) {
       try {
@@ -90,7 +90,7 @@ export function AuthProvider({ children }) {
 
   const loginWithToken = useCallback(async (token) => {
     try {
-      // Decode JWT payload manually (Base64 decode)
+      
       const base64Url = token.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
       const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
@@ -133,11 +133,11 @@ export function AuthProvider({ children }) {
     try {
       const result = await updateProfileAPI(updates);
       
-      // Update local state with the response from backend
+      
       const updatedUser = { 
         ...user, 
         ...result.user,
-        // Include student data if available
+        
         ...(result.student && { student: result.student })
       };
       

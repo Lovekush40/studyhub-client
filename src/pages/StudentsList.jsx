@@ -11,7 +11,7 @@ export default function StudentsList() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
 
-  // Modal State
+  
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isAllocationModalOpen, setIsAllocationModalOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -254,7 +254,7 @@ export default function StudentsList() {
         )}
       </div>
       
-      {/* Student Profile Modal */}
+      
       <StudentFormModal 
         isOpen={isProfileModalOpen}
         onClose={() => setIsProfileModalOpen(false)}
@@ -262,7 +262,7 @@ export default function StudentsList() {
         onSubmit={loadStudents}
       />
 
-      {/* Batch Allocation Modal */}
+      
       <BatchAllocationModal
         isOpen={isAllocationModalOpen}
         onClose={() => {

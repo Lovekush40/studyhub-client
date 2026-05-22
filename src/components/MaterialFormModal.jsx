@@ -65,14 +65,14 @@ export default function MaterialFormModal({
 
       <div className="w-full max-w-md rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-lg">
 
-        {/* Header */}
+        
         <h2 className="text-lg font-semibold text-[var(--color-text)] mb-4">
           {materialData ? "Edit Material" : "Add Material"}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
 
-          {/* Subject (if available) */}
+          
           {subjects.length > 0 && (
             <div>
               <label className="text-sm text-[var(--color-text-muted)] block mb-1">
@@ -93,7 +93,7 @@ export default function MaterialFormModal({
             </div>
           )}
 
-          {/* Type */}
+          
           <div>
             <label className="text-sm text-[var(--color-text-muted)] block mb-1">
               Type
@@ -111,7 +111,7 @@ export default function MaterialFormModal({
             </select>
           </div>
 
-          {/* Title */}
+          
           <div>
             <label className="text-sm text-[var(--color-text-muted)] block mb-1">
               Title
@@ -127,7 +127,7 @@ export default function MaterialFormModal({
             />
           </div>
 
-          {/* Description */}
+          
           <div>
             <label className="text-sm text-[var(--color-text-muted)] block mb-1">
               Description (Optional)
@@ -142,7 +142,7 @@ export default function MaterialFormModal({
             />
           </div>
 
-          {/* URL */}
+          
           <div>
             <label className="text-sm text-[var(--color-text-muted)] block mb-1">
               URL / Link
@@ -162,7 +162,7 @@ export default function MaterialFormModal({
             />
           </div>
 
-          {/* Buttons */}
+          
           <div className="flex justify-end gap-3 pt-4 border-t border-[var(--color-border)]">
 
             <button

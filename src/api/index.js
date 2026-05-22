@@ -1,8 +1,5 @@
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1';
 
-/**
- * Centralized API request handler with auth and error management
- */
 let isRefreshing = false;
 let refreshPromise = null;
 
@@ -18,7 +15,7 @@ export async function request(path, options = {}) {
   const method = options.method || 'GET';
   const fetchOptions = {
     headers,
-    credentials: 'omit', // Standard API calls without cookies initially
+    credentials: 'omit', 
     ...options,
     body: options.body ? JSON.stringify(options.body) : undefined
   };
@@ -26,9 +23,9 @@ export async function request(path, options = {}) {
   try {
     let res = await fetch(`${BASE_URL}${path}`, fetchOptions);
 
-    // Standard Handle non-ok responses
+    
     if (!res.ok) {
-      // 401 Interceptor specifically for Silent Token Refresh
+      
       if (res.status === 401) {
         if (!isRefreshing) {
           isRefreshing = true;
@@ -60,13 +57,13 @@ export async function request(path, options = {}) {
 
         const newToken = await refreshPromise;
         if (newToken) {
-          // Retry original request with new token
+          
           fetchOptions.headers['Authorization'] = `Bearer ${newToken}`;
           res = await fetch(`${BASE_URL}${path}`, fetchOptions);
         }
       }
 
-      // If it's STILL not ok after a retry or wasn't a 401 to begin with
+      
       if (!res.ok) {
         const responseData = await res.json().catch(() => ({}));
         const errorMessage = responseData.error || responseData.message || res.statusText || 'Network error';
@@ -75,7 +72,7 @@ export async function request(path, options = {}) {
       }
     }
 
-    // Parse Response
+    
     const responseData = await res.json().catch(() => ({}));
     const data = responseData.data !== undefined ? responseData.data : responseData;
     
@@ -86,9 +83,9 @@ export async function request(path, options = {}) {
   }
 }
 
-// ============================================
-// DASHBOARD API
-// ============================================
+
+
+
 export const fetchDashboardStats = async (role) => {
   const query = role ? `?role=${encodeURIComponent(role)}` : '';
   return request(`/dashboard${query}`);
@@ -101,20 +98,10 @@ export const fetchStudentsList = async () => {
   return request('/students');
 };
 
-/**
- * Fetch a single student by ID with expanded details
- * @param {string} id - Student ID
- * @returns {Promise} Student object
- */
 export const fetchStudentById = async (id) => {
   return request(`/students/${id}`);
 };
 
-/**
- * Add a new student with primary batch enrollment
- * @param {Object} studentData - Student data including batch_id and course_id
- * @returns {Promise} Created student object
- */
 export const addStudent = async (studentData) => {
   return request('/students', { 
     method: 'POST', 
@@ -122,12 +109,6 @@ export const addStudent = async (studentData) => {
   });
 };
 
-/**
- * Update student (basic info only, batch changes via allocateBatchesToStudent)
- * @param {string} id - Student ID
- * @param {Object} studentData - Updated student data
- * @returns {Promise} Updated student object
- */
 export const updateStudent = async (id, studentData) => {
   return request(`/students/${id}`, { 
     method: 'PUT', 
@@ -135,23 +116,12 @@ export const updateStudent = async (id, studentData) => {
   });
 };
 
-/**
- * Delete student and all their batch allocations
- * @param {string} id - Student ID
- * @returns {Promise} Success response
- */
 export const deleteStudent = async (id) => {
   return request(`/students/${id}`, { 
     method: 'DELETE' 
   });
 };
 
-/**
- * Allocate multiple batches to a student (use for editing students)
- * @param {string} studentId - Student ID
- * @param {Array} batchIds - Array of batch IDs to allocate
- * @returns {Promise} Allocation response
- */
 export const allocateBatchesToStudent = async (studentId, batchIds) => {
   if (!Array.isArray(batchIds)) {
     throw new Error('batchIds must be an array');
@@ -163,12 +133,6 @@ export const allocateBatchesToStudent = async (studentId, batchIds) => {
   });
 };
 
-/**
- * Remove a single batch from student
- * @param {string} studentId - Student ID
- * @param {string} batchId - Batch ID to remove
- * @returns {Promise} Success response
- */
 export const removeBatchFromStudent = async (studentId, batchId) => {
   return request('/students/remove-batch', {
     method: 'POST',
@@ -179,13 +143,6 @@ export const removeBatchFromStudent = async (studentId, batchId) => {
   });
 };
 
-/**
- * Enroll student in a batch (legacy method for backwards compatibility)
- * @param {string} studentId - Student ID
- * @param {string} batchId - Batch ID (optional if courseId provided)
- * @param {string} courseId - Course ID (optional if batchId provided)
- * @returns {Promise} Enrolled student object
- */
 export const enrollStudent = async (studentId, batchId, courseId) => {
   return request('/students/enroll', {
     method: 'POST',
@@ -197,9 +154,9 @@ export const enrollStudent = async (studentId, batchId, courseId) => {
   });
 };
 
-// ============================================
-// COURSES API
-// ============================================
+
+
+
 export const fetchCourses = async () => {
   return request('/courses');
 };
@@ -246,7 +203,7 @@ export const deleteCourse = async (id) => {
   });
 };
 
-// Student Course Enrollment APIs
+
 export const enrollInCourse = async (courseId) => {
   return request(`/courses/${courseId}/enroll`, {
     method: 'POST'
@@ -263,9 +220,9 @@ export const fetchStudentEnrolledCourses = async () => {
   return request('/student/enrolled-courses');
 };
 
-// ============================================
-// BATCHES API
-// ============================================
+
+
+
 export const fetchBatches = async () => {
   return request('/batches');
 };
@@ -290,9 +247,9 @@ export const deleteBatch = async (id) => {
   });
 };
 
-// ============================================
-// TESTS API
-// ============================================
+
+
+
 export const fetchTestsList = async () => {
   return request('/tests');
 };
@@ -317,9 +274,9 @@ export const deleteTest = async (id) => {
   });
 };
 
-// ============================================
-// PUBLISHED RESULTS API
-// ============================================
+
+
+
 export const fetchPublishedResults = async () => {
   return request('/published-results');
 };
@@ -337,9 +294,9 @@ export const deletePublishedResult = async (id) => {
   });
 };
 
-// ============================================
-// MATERIALS/CONTENT API
-// ============================================
+
+
+
 export const fetchMaterials = async (filters = {}) => {
   const query = new URLSearchParams();
   
@@ -374,9 +331,9 @@ export const deleteMaterial = async (id) => {
   });
 };
 
-// ============================================
-// AUTHENTICATION API
-// ============================================
+
+
+
 export const registerUser = async (name, email, password) => {
   return request('/auth/register', { 
     method: 'POST', 

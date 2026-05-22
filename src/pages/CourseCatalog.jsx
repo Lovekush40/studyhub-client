@@ -75,7 +75,7 @@ export default function CourseCatalog() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      
       <div>
         <h1 className="text-2xl font-bold flex items-center gap-2">
           <BookOpen className="w-7 h-7 text-[var(--color-primary)]" />
@@ -89,14 +89,14 @@ export default function CourseCatalog() {
         </p>
       </div>
 
-      {/* Loading State */}
+      
       {loading && (
         <div className="flex justify-center py-20">
           <Loader2 className="w-8 h-8 animate-spin text-[var(--color-primary)]" />
         </div>
       )}
 
-      {/* Courses Grid */}
+      
       {!loading && (
         <>
           {courses.length === 0 ? (
@@ -115,18 +115,18 @@ export default function CourseCatalog() {
                     key={courseId}
                     className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow bg-[var(--color-bg-alt)]"
                   >
-                    {/* Course Header */}
+                    
                     <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary)]/80 p-6 text-white">
                       <h3 className="text-xl font-semibold line-clamp-2">{course.name || course.course_name}</h3>
                     </div>
 
-                    {/* Course Content */}
+                    
                     <div className="p-6 space-y-4">
                       <p className="text-sm text-[var(--color-text-muted)] line-clamp-3">
                         {course.description}
                       </p>
 
-                      {/* Subjects */}
+                      
                       {course.subjects && course.subjects.length > 0 && (
                         <div>
                           <p className="text-xs font-semibold text-[var(--color-text-muted)] uppercase mb-2">
@@ -145,14 +145,14 @@ export default function CourseCatalog() {
                         </div>
                       )}
 
-                      {/* Duration */}
+                      
                       {course.duration > 0 && (
                         <p className="text-sm text-[var(--color-text-muted)]">
                           <span className="font-medium">Duration:</span> {course.duration} hours
                         </p>
                       )}
 
-                      {/* Status Badge */}
+                      
                       {enrolled && (
                         <div className="p-3 bg-green-50 border border-green-200 rounded text-green-700 text-sm font-medium flex items-center gap-2">
                           <Check className="w-4 h-4" />
@@ -160,7 +160,7 @@ export default function CourseCatalog() {
                         </div>
                       )}
 
-                      {/* Action Buttons */}
+                      
                       <div className="flex gap-3 pt-2">
                         {enrolled ? (
                           <>
@@ -213,7 +213,7 @@ export default function CourseCatalog() {
         </>
       )}
 
-      {/* Success Modal */}
+      
       <Modal 
         isOpen={!!modalMessage} 
         onClose={() => setModalMessage(null)} 

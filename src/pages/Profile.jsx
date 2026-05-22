@@ -62,7 +62,7 @@ export default function Profile() {
       </div>
 
       <div className="bg-[var(--color-bg-alt)] shadow-sm ring-1 ring-[var(--color-border)] sm:rounded-xl overflow-hidden">
-        {/* Profile Header Block */}
+        
         <div className="px-4 py-6 sm:p-8 bg-gradient-to-r from-[var(--color-primary)]/10 to-transparent flex flex-col sm:flex-row items-center gap-6 border-b border-[var(--color-border)]">
           <div className="h-24 w-24 flex-shrink-0 rounded-full bg-[var(--color-bg-alt)] border-4 border-[var(--color-bg-alt)] shadow-md overflow-hidden relative group">
             <img src={user?.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=fallback"} alt="Avatar" className="w-full h-full object-cover" />
@@ -84,7 +84,7 @@ export default function Profile() {
         <form onSubmit={handleSubmit} className="px-4 py-6 sm:p-8 space-y-6">
           <div className="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2">
             
-            {/* Name Field */}
+            
             <div className="sm:col-span-2">
               <label htmlFor="name" className="block text-sm font-medium leading-6 text-[var(--color-text)]">
                 Full Name
@@ -105,7 +105,7 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* Email Field (Disabled) */}
+            
             <div className="sm:col-span-2">
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-[var(--color-text)]">
                 Email Address
@@ -126,7 +126,7 @@ export default function Profile() {
               <p className="mt-1 text-xs text-[var(--color-text-muted)]">Your email address cannot be changed.</p>
             </div>
 
-            {/* Contact Field */}
+            
             <div className="sm:col-span-1">
               <label htmlFor="contact" className="block text-sm font-medium leading-6 text-[var(--color-text)]">
                 Phone Number
@@ -147,7 +147,7 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* DOB Field */}
+            
             <div className="sm:col-span-1">
               <label htmlFor="dob" className="block text-sm font-medium leading-6 text-[var(--color-text)]">
                 Date of Birth
@@ -167,7 +167,7 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* Address Field */}
+            
             <div className="sm:col-span-2">
               <label htmlFor="address" className="block text-sm font-medium leading-6 text-[var(--color-text)]">
                 Home Address

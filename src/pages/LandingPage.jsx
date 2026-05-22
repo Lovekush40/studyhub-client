@@ -14,13 +14,13 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-[calc(100vh-4rem)] animate-in fade-in duration-500">
       <StickyAnnouncementBar />
 
-      {/* Hero Section */}
+      
       <section className="relative flex-1 px-4 sm:px-6 lg:px-8 py-20 overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-[var(--color-primary)]/10 to-transparent rounded-full blur-3xl -z-10"></div>
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-          {/* Left */}
+          
           <div className="flex flex-col items-start">
 
             <div className="mb-6 px-3 py-1 rounded-full bg-[var(--color-bg-alt)] border text-sm text-[var(--color-primary)]">
@@ -39,7 +39,7 @@ export default function LandingPage() {
               expert teachers, and real-time progress tracking.
             </p>
 
-            {/* CTA */}
+            
             <div className="flex gap-4 mt-8 animate-in slide-in-from-bottom-6 duration-700 delay-300">
               {user ? (
                 <Link
@@ -58,7 +58,7 @@ export default function LandingPage() {
               )}
             </div>
 
-            {/* Stats */}
+            
             <div className="mt-10 grid grid-cols-3 gap-6 text-center w-full max-w-md">
               <div>
                 <p className="text-2xl font-bold text-[var(--color-primary)]">500+</p>
@@ -75,7 +75,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Right Image */}
+          
           <div>
             <img
               src="https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=2070&auto=format&fit=crop"
@@ -86,7 +86,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features */}
+      
       <section className="py-20 bg-[var(--color-bg-alt)] border-y border-[var(--color-border)] shadow-sm">
         <div className="max-w-7xl mx-auto px-4">
 

@@ -39,8 +39,8 @@ export default function TopNavigation() {
   
   const publicNavItems = [
     { name: 'Home', path: '/' },
-    // { name: 'Features', path: '/features' },
-    // { name: 'Pricing', path: '/pricing' },
+    
+    
   ];
 
   const navItems = user ? (user.role === 'ADMIN' ? adminNavItems : studentNavItems) : publicNavItems;
@@ -50,9 +50,9 @@ export default function TopNavigation() {
       <div className="mx-auto px-4 max-w-7xl">
         <div className="flex justify-between items-center h-14">
           
-          {/* Left Side: Logo & Compact Links */}
+          
           <div className="flex items-center gap-6">
-            {/* Logo Brand */}
+            
             <Link to="/" className="flex-shrink-0 flex items-center gap-1.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-primary)] rounded">
               <img src='/navLogo.png' alt="StudyHub Logo" className='h-10 w-10 object-contain'/>
               <span className="font-bold text-lg tracking-tight text-[var(--color-text)] hidden sm:block">
@@ -60,7 +60,7 @@ export default function TopNavigation() {
               </span>
             </Link>
 
-            {/* Desktop Navigation Links  */}
+            
             <div className="hidden md:flex items-center space-x-1">
               {navItems.map((item) => (
                 <NavLink
@@ -81,10 +81,10 @@ export default function TopNavigation() {
             </div>
           </div>
 
-          {/* Right Side: Tools & Actions */}
+          
           <div className="hidden md:flex items-center space-x-3 h-full">
             
-            {/* Dark Mode Toggle */}
+            
             <button
               onClick={toggleTheme}
               className="p-1.5 rounded-md text-[var(--color-text-muted)] hover:bg-[var(--color-bg)] hover:text-[var(--color-text)] transition-colors focus:outline-none"
@@ -96,7 +96,7 @@ export default function TopNavigation() {
             {user ? (
               <>
                 
-                {/* Minimal Profile Avatar */}
+                
                 <div className="flex items-center gap-4 pl-3 ml-1 border-l border-[var(--color-border)] group relative">
                   <Link to="/profile" className="h-8 w-8 rounded-full border border-[var(--color-border)] overflow-hidden hover:border-[var(--color-text)] transition-colors focus:outline-none cursor-pointer">
                      <img src={user?.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=fallback"} alt="Profile" className="w-full h-full object-cover" />
@@ -113,14 +113,13 @@ export default function TopNavigation() {
                 </div>
               </>
             ) : (
-              /* Public / Unauthenticated Actions */
-              <div className="hidden lg:flex items-center gap-4">
+                            <div className="hidden lg:flex items-center gap-4">
                 <Link to="/login" className="text-[13px] font-medium text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] transition-colors px-6 py-2 rounded-lg focus:outline-none shadow-sm">Login</Link>
               </div>
             )}
           </div>
 
-          {/* Mobile menu toggle */}
+          
           <div className="flex items-center gap-2 md:hidden">
             {!user && (
                <Link to="/login" className="text-sm font-medium text-[var(--color-text)]">Sign in</Link>
@@ -135,7 +134,7 @@ export default function TopNavigation() {
         </div>
       </div>
 
-      {/* Mobile Navigation Dropdown */}
+      
       {isOpen && (
         <div className="md:hidden border-t border-[var(--color-border)] bg-[var(--color-bg-alt)] animate-in slide-in-from-top-1">
           <div className="px-3 pt-2 pb-3 space-y-1">

@@ -24,7 +24,7 @@ const AnnouncementManagement = () => {
       setLoading(true);
       const data = await fetchActiveAnnouncements(); // Fetch active + inactive conceptually? Our API only fetches active currently!
       // Wait, our backend 'getAnnouncements' filters by { active: true }. 
-      // It's okay, we can just manage the ones that are fetched, or standard CRUD.
+      
       setAnnouncements(data);
     } catch (error) {
       console.error('Failed to load announcements', error);
@@ -104,7 +104,7 @@ const AnnouncementManagement = () => {
         <p className="text-sm text-[var(--color-text-muted)] mt-1">Create and manage global alerts and updates.</p>
       </div>
 
-      {/* Form Section */}
+      
       <div className="p-6 bg-[var(--color-bg)] border-b border-[var(--color-border)]">
         <h3 className="text-lg font-semibold mb-4 text-[var(--color-text)]">
           {isEditing ? 'Edit Announcement' : 'Create New Announcement'}
@@ -218,7 +218,7 @@ const AnnouncementManagement = () => {
         </form>
       </div>
 
-      {/* List Section */}
+      
       <div className="overflow-x-auto">
         {loading ? (
           <div className="p-8 text-center text-[var(--color-text-muted)] animate-pulse">Loading announcements...</div>

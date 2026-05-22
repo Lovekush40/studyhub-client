@@ -15,9 +15,9 @@ export let mockTests = [
     id: "T1",
     test_name: "JEE Adv Mock Test 1",
     subject: "Full Syllabus",
-    course_id: "C1", // ✅ link with course
+    course_id: "C1", 
     totalMarks: 360,
-    duration: 180, // ✅ number (minutes)
+    duration: 180, 
     date: "2026-03-30T10:00",
     form_url: "https://forms.gle/test1",
   },

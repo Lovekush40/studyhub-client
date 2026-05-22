@@ -61,7 +61,7 @@ export default function PublishedResults() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-10">
-      {/* Header */}
+      
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-extrabold text-[var(--color-text)] flex items-center gap-3">
@@ -84,14 +84,13 @@ export default function PublishedResults() {
         )}
       </div>
 
-      {/* Loading State */}
+      
       {loading ? (
         <div className="flex justify-center py-20">
           <Loader2 className="w-10 h-10 animate-spin text-[var(--color-primary)]" />
         </div>
       ) : results.length === 0 ? (
-        /* Empty State */
-        <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-[var(--color-bg-alt)] rounded-2xl border border-[var(--color-border)]">
+                <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-[var(--color-bg-alt)] rounded-2xl border border-[var(--color-border)]">
           <div className="w-20 h-20 bg-[var(--color-primary)]/10 rounded-full flex items-center justify-center mb-4">
             <FileText className="w-10 h-10 text-[var(--color-primary)]" />
           </div>
@@ -101,8 +100,7 @@ export default function PublishedResults() {
           </p>
         </div>
       ) : (
-        /* Results Grid */
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {results.map((res) => (
             <div key={res._id || res.id} className="group relative bg-[var(--color-bg-alt)] rounded-2xl border border-[var(--color-border)] overflow-hidden hover:border-[var(--color-primary)]/50 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
               
@@ -154,7 +152,7 @@ export default function PublishedResults() {
         </div>
       )}
 
-      {/* Upload Modal (Admin) */}
+      
       {isAdmin && isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="bg-[var(--color-bg-alt)] border border-[var(--color-border)] rounded-2xl w-full max-w-md shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">

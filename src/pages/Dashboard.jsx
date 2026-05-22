@@ -4,8 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { fetchDashboardStats } from '../api';
 import { Users, Layers, BookOpen, PenTool, CheckCircle, TrendingUp, Clock, Loader2 } from 'lucide-react';
 
-// Map icon strings to actual Lucide components dynamically if needed, 
-// but for now we'll just handle it statically or via mapping.
+
+
 const iconMap = {
   Users, Layers, BookOpen, PenTool, CheckCircle, TrendingUp, Clock
 };
@@ -47,11 +47,11 @@ export default function Dashboard() {
     );
   }
 
-  // Helper to resolve icon component from string mapping or fallback
+  
   const getIcon = (iconName) => {
-    // We didn't save string names in the mock data, but we can map based on title or use a default
-    // Wait, the mockData currently doesn't store the icon reference because functions can't be serialized.
-    // Instead we can map based on the 'name' field
+    
+    
+    
     const nameMap = {
       'Total Students': Users,
       'Active Batches': Layers,
@@ -115,7 +115,7 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* Activity Widget */}
+        
         <div className={`rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)] p-6 shadow-sm flex flex-col ${enrolledCourses.length > 0 ? '' : 'lg:col-span-2'}`}>
           <h2 className="text-lg font-semibold text-[var(--color-text)] mb-4">
             {isAdmin ? 'Upcoming Assessments' : 'My Upcoming Assessments'}

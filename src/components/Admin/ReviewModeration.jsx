@@ -5,7 +5,7 @@ import { CheckCircle, XCircle, Clock, Search } from 'lucide-react';
 const ReviewModeration = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all'); // all, pending, approved, rejected
+  const [filter, setFilter] = useState('all'); 
 
   const loadReviews = async () => {
     try {
@@ -26,11 +26,11 @@ const ReviewModeration = () => {
   const handleStatusChange = async (id, newStatus) => {
     try {
       await updateReviewStatus(id, newStatus);
-      // Optimistically update
+      
       setReviews(reviews.map(r => r._id === id || r.id === id ? { ...r, status: newStatus } : r));
     } catch (error) {
       console.error(`Failed to update review to ${newStatus}`, error);
-      loadReviews(); // Reload on error to sync state
+      loadReviews(); 
     }
   };
 
@@ -159,7 +159,7 @@ const ReviewModeration = () => {
   );
 };
 
-// Simple Star Icon for the table
+
 function StarIcon(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>

@@ -83,7 +83,7 @@ const ReviewsSection = () => {
         </div>
       </div>
 
-      {/* Full Review Modal */}
+      
       {selectedReview && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="bg-[var(--color-bg-alt)] rounded-2xl w-full max-w-lg p-6 sm:p-8 relative shadow-2xl animate-in zoom-in-95 duration-200 border border-[var(--color-border)]">

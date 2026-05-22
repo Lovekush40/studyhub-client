@@ -62,7 +62,7 @@ export default function CourseFormModal({ isOpen, onClose, courseData, onSubmit 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validate form
+    
     const validationError = validateForm();
     if (validationError) {
       setError(validationError);
@@ -73,7 +73,7 @@ export default function CourseFormModal({ isOpen, onClose, courseData, onSubmit 
     setError(null);
     
     try {
-      // Parse subjects string to array, trimming whitespace
+      
       const submissionData = {
         name: formData.name.trim(),
         description: formData.description.trim(),

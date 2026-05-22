@@ -42,12 +42,12 @@ const AnnouncementsSection = () => {
 
   return (
     <div className="w-full bg-[var(--color-bg-alt)] rounded border border-[var(--color-border)] shadow-sm overflow-hidden flex flex-col">
-      {/* Header */}
+      
       <div className="bg-[#1f73b7] text-white text-center py-2 font-bold text-lg uppercase tracking-wider">
         Notice Board
       </div>
 
-      {/* Tabs */}
+      
       <div className="flex border-b border-[var(--color-border)] overflow-x-auto hide-scrollbar">
         {tabs.map(tab => (
           <button
@@ -67,7 +67,7 @@ const AnnouncementsSection = () => {
         ))}
       </div>
 
-      {/* Content */}
+      
       <div className="p-4 flex-1 min-h-[350px]">
         {loading ? (
           <div className="text-center py-8 text-[var(--color-text-muted)] animate-pulse">Loading notices...</div>
@@ -109,7 +109,7 @@ const AnnouncementsSection = () => {
         )}
       </div>
 
-      {/* View More Button */}
+      
       {!loading && filteredAnnouncements.length > visibleCount && (
         <div className="flex justify-center p-4 border-t border-[var(--color-border)]">
           <button 

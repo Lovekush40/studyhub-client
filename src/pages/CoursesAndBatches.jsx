@@ -10,7 +10,7 @@ export default function CoursesAndBatches() {
   const isAdmin = user?.role === 'ADMIN';
   const isTeacher = user?.role === 'TEACHER';
   
-  // Can manage if Admin or Teacher (Teacher might have limited edit perms on backend, but UI shows tools)
+  
   const canManage = isAdmin || isTeacher;
 
   const [courses, setCourses] = useState([]);
@@ -18,7 +18,7 @@ export default function CoursesAndBatches() {
 
   const navigate = useNavigate();
 
-  // Modal States
+  
   const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
   const [editingCourse, setEditingCourse] = useState(null);
 
@@ -39,7 +39,7 @@ export default function CoursesAndBatches() {
   }, [loadData]);
 
 
-  // --- Course Handlers ---
+  
   const handleOpenAddCourse = () => {
     setEditingCourse(null);
     setIsCourseModalOpen(true);
@@ -153,7 +153,7 @@ export default function CoursesAndBatches() {
         </div>
       )}
 
-      {/* Modals */}
+      
       {isAdmin && (
         <CourseFormModal 
           isOpen={isCourseModalOpen} 

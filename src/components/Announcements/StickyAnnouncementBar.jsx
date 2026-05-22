@@ -10,7 +10,7 @@ const StickyAnnouncementBar = () => {
     const loadAnnouncements = async () => {
       try {
         const data = await fetchActiveAnnouncements();
-        // Just grab the first high-priority announcement, or the latest one
+        
         if (data && data.length > 0) {
           const highPriority = data.find(a => a.priority === 'high');
           setAnnouncement(highPriority || data[0]);

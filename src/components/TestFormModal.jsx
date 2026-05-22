@@ -7,8 +7,8 @@ export default function TestFormModal({
   onClose,
   testData,
   onSubmit,
-  coursesList = [], // ✅ safe default
-  batchesList = [] // ✅ safe default
+  coursesList = [], 
+  batchesList = [] 
 }) {
   const [formData, setFormData] = useState({
     test_name: "",
@@ -92,7 +92,7 @@ export default function TestFormModal({
     >
       <form onSubmit={handleSubmit} className="space-y-4">
 
-        {/* Test Name */}
+        
         <div>
           <label className="block text-sm font-medium text-[var(--color-text-muted)] mb-1">
             Test Name
@@ -107,7 +107,7 @@ export default function TestFormModal({
           />
         </div>
 
-        {/* Course (🔥 FIXED) */}
+        
         <div>
           <label className="block text-sm font-medium text-[var(--color-text-muted)] mb-1">
             Course
@@ -137,7 +137,7 @@ export default function TestFormModal({
 
 
 
-        {/* Subject */}
+        
         <div>
           <label className="block text-sm font-medium text-[var(--color-text-muted)] mb-1">
             Subject
@@ -152,7 +152,7 @@ export default function TestFormModal({
           />
         </div>
 
-        {/* Date */}
+        
         <div>
           <label className="block text-sm font-medium text-[var(--color-text-muted)] mb-1">
             Test Date & Time
@@ -167,7 +167,7 @@ export default function TestFormModal({
           />
         </div>
 
-        {/* Duration */}
+        
         <input
           type="number"
           name="duration"
@@ -178,7 +178,7 @@ export default function TestFormModal({
           className="w-full px-3 py-2 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md"
         />
 
-        {/* Total Marks */}
+        
         <input
           type="number"
           name="total_marks"
@@ -189,7 +189,7 @@ export default function TestFormModal({
           className="w-full px-3 py-2 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md"
         />
 
-        {/* Google Form */}
+        
         <input
           type="url"
           name="form_url"
@@ -200,7 +200,7 @@ export default function TestFormModal({
           className="w-full px-3 py-2 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md"
         />
 
-        {/* Buttons */}
+        
         <div className="pt-4 flex justify-end gap-3 border-t border-[var(--color-border)]">
           <button
             type="button"

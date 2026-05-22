@@ -50,12 +50,12 @@ export default function Login() {
     window.location.href = `${API_URL}/auth/google`;
   };
 
-  // Do not render the login form if we are about to navigate away
+  
   if (user) return null;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)] text-[var(--color-text)] relative overflow-hidden">
-      {/* Background decorations */}
+      
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-[var(--color-primary)]/20 to-blue-500/20 rounded-full blur-3xl -z-10 animate-pulse-slow"></div>
       
       <div className="w-full max-w-md p-8 sm:p-10 rounded-2xl bg-[var(--color-bg-alt)]/80 backdrop-blur-xl border border-[var(--color-border)] shadow-2xl animate-in zoom-in-95 duration-500 relative">
